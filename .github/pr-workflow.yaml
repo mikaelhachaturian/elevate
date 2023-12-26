@@ -1,0 +1,25 @@
+name: elevate pr workflow
+
+on: [pull_request]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pylint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+
+      - name: Setup nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21
+
+      - name: install dependencies
+        run: npm install --only=dev
+
+      - name: run lint
+        run: npm run lint
