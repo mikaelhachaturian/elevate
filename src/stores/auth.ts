@@ -2,7 +2,8 @@ import { create } from 'zustand';
 
 interface Auth {
   is_authenticated: boolean;
-  updateAuth: () => void;
+  signIn: () => void;
+  signOut: () => void;
 }
 
 const localStorageHandler = (): boolean => {
@@ -12,14 +13,18 @@ const localStorageHandler = (): boolean => {
 
 const useAuth = create<Auth>((set) => ({
   is_authenticated: localStorageHandler(),
-  updateAuth: () =>
+  signIn: () =>
     set((state) => {
-      console.log('changing auth to ' + !state.is_authenticated);
       localStorage.setItem(
         'is_authenticated',
         JSON.stringify(!state.is_authenticated)
       );
-      return { is_authenticated: !state.is_authenticated };
+      return { is_authenticated: true };
+    }),
+  signOut: () =>
+    set(() => {
+      localStorage.removeItem('is_authenticated');
+      return { is_authenticated: false };
     }),
 }));
 

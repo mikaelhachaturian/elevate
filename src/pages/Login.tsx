@@ -3,7 +3,7 @@ import useAuth from '../stores/auth';
 import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
-  const updateAuth = useAuth((state) => state.updateAuth);
+  const signIn = useAuth((state) => state.signIn);
   const is_authenticated = useAuth((state) => state.is_authenticated);
   const navigate = useNavigate();
 
@@ -15,7 +15,7 @@ export const Login = () => {
       </Text>
       <Button
         onClick={() => {
-          updateAuth();
+          signIn();
           navigate('/');
         }}
       >

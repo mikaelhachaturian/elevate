@@ -4,7 +4,7 @@ import useAuth from '../../../../stores/auth';
 import { useNavigate } from 'react-router-dom';
 
 const SignOutBtn = () => {
-  const updateAuth = useAuth((state) => state.updateAuth);
+  const signOut = useAuth((state) => state.signOut);
   const navigate = useNavigate();
   return (
     <>
@@ -13,7 +13,7 @@ const SignOutBtn = () => {
           variant="ghost"
           leftIcon={<IoMdExit />}
           onClick={() => {
-            updateAuth();
+            signOut();
             navigate('/login');
           }}
         >
