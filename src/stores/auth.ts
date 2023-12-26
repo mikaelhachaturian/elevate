@@ -14,11 +14,8 @@ const localStorageHandler = (): boolean => {
 const useAuth = create<Auth>((set) => ({
   is_authenticated: localStorageHandler(),
   signIn: () =>
-    set((state) => {
-      localStorage.setItem(
-        'is_authenticated',
-        JSON.stringify(!state.is_authenticated)
-      );
+    set(() => {
+      localStorage.setItem('is_authenticated', JSON.stringify(true));
       return { is_authenticated: true };
     }),
   signOut: () =>
