@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  elevate:
+    build: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: elevate
+      MYSQL_PASSWORD: Aa123456
+      MYSQL_DATABASE: elevate
+
+  db:
+    image: mysql:8.2
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: elevate
+      MYSQL_USER: elevate
+      MYSQL_PASSWORD: Aa123456
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:

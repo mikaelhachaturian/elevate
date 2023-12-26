@@ -12,4 +12,14 @@ npm run dev
 
 ## Docker Compose
 
-WIP
+Bring the env up
+
+```
+docker compose up -d
+```
+
+Scale down the env
+
+```
+docker compose down
+```
