@@ -19,7 +19,7 @@ jobs:
           node-version: 21
 
       - name: install dependencies
-        run: npm install --only=dev
+        run: npm install
 
       - name: run lint
         run: npm run lint
