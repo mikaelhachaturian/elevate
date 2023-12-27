@@ -8,7 +8,7 @@ Also updating upgrade orders for users and scheduling work with external service
 Bring the env up
 
 ```
-docker compose up -d
+docker compose up -d --build
 ```
 
 Scale down the env
