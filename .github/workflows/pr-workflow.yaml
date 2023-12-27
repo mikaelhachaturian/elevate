@@ -18,8 +18,14 @@ jobs:
         with:
           node-version: 21
 
-      - name: install dependencies
-        run: npm install
+      - name: lint frontend
+        run: |
+          cd frontend
+          npm install
+          npm run lint
 
-      - name: run lint
-        run: npm run lint
+      - name: lint backend
+        run: |
+          cd backend
+          npm install
+          npm run lint
