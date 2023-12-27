@@ -37,19 +37,19 @@ const UserPopUp = () => {
         </PopoverTrigger>
         <PopoverContent>
           <PopoverArrow />
-          <VStack padding={6}>
+          <VStack padding={2}>
             <Image
               borderRadius="full"
-              boxSize="90px"
+              boxSize="85px"
               src={profile?.picture}
               alt={profile?.name}
             />
-            <PopoverHeader paddingX={'7'}>Hi {profile?.name}!</PopoverHeader>
+            <PopoverHeader>Hi {profile?.name}!</PopoverHeader>
+            <PopoverBody>
+              <ColorModeSwitch />
+              <SignOutBtn />
+            </PopoverBody>
           </VStack>
-          <PopoverBody>
-            <ColorModeSwitch />
-            <SignOutBtn />
-          </PopoverBody>
         </PopoverContent>
       </Popover>
     </>

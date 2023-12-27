@@ -7,7 +7,7 @@ const ColorModeSwitch = () => {
   return (
     <HStack paddingX={'4'}>
       <MdOutlineDarkMode />
-      <Text>
+      <Text fontSize={'sm'}>
         {colorMode === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
       </Text>
       <Switch
