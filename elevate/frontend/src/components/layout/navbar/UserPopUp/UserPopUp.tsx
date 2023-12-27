@@ -1,4 +1,5 @@
 import {
+  Button,
   Image,
   Popover,
   PopoverArrow,
@@ -6,6 +7,7 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  VStack,
 } from '@chakra-ui/react';
 import useProfile from '../../../../hooks/useProfile';
 import ColorModeSwitch from './ColorModeSwitch';
@@ -15,22 +17,35 @@ const UserPopUp = () => {
   const profile = useProfile();
   return (
     <>
-      <Popover>
+      <Popover placement="right-end">
         <PopoverTrigger>
-          <Image
-            borderRadius="full"
-            boxSize="75px"
-            src={profile?.picture}
-            alt={profile?.name}
-            _hover={{
-              transform: 'scale(1.04)',
-              transition: 'transform .15s ease-in',
-            }}
-          />
+          <Button
+            size="sm"
+            bg={'#DDD8C3'}
+            color={'#3E373D'}
+            leftIcon={
+              <Image
+                borderRadius="full"
+                boxSize="25px"
+                src={profile?.picture}
+                alt={profile?.name}
+              />
+            }
+          >
+            {profile?.given_name}
+          </Button>
         </PopoverTrigger>
         <PopoverContent>
           <PopoverArrow />
-          <PopoverHeader>Hi {profile?.name}!</PopoverHeader>
+          <VStack padding={6}>
+            <Image
+              borderRadius="full"
+              boxSize="90px"
+              src={profile?.picture}
+              alt={profile?.name}
+            />
+            <PopoverHeader paddingX={'7'}>Hi {profile?.name}!</PopoverHeader>
+          </VStack>
           <PopoverBody>
             <ColorModeSwitch />
             <SignOutBtn />

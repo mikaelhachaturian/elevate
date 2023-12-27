@@ -1,6 +1,7 @@
-import { Box, Image, VStack } from '@chakra-ui/react';
+import { Box, Divider, Image, VStack } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import logo from '../../../assets/elevate-icons/png/logo-no-background.png';
+import Notifications from './Notifications';
 import UserPopUp from './UserPopUp/UserPopUp';
 
 const Header = () => {
@@ -19,9 +20,11 @@ const Header = () => {
           />
         </Link>
       </Box>
-      <Box>
+      <VStack padding="3" justify={'space-between'}>
+        <Divider />
+        <Notifications />
         <UserPopUp />
-      </Box>
+      </VStack>
     </VStack>
   );
 };
