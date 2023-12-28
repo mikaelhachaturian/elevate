@@ -12,7 +12,7 @@ services:
     develop:
       watch:
         - action: rebuild
-          path: elevate/frontend
+          path: elevate/frontendasdasdasa
 
   elevate-backend:
     build: elevate/backend/.
