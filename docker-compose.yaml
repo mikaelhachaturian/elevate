@@ -9,6 +9,10 @@ services:
       - db
     env_file:
       - elevate/frontend/.env
+    develop:
+      watch:
+        - action: rebuild
+          path: elevate/frontend
 
   elevate-backend:
     build: elevate/backend/.
@@ -18,6 +22,10 @@ services:
       - db
     env_file:
       - elevate/backend/.env
+    develop:
+      watch:
+        - action: rebuild
+          path: elevate/backend
 
   db:
     image: mysql:8.2

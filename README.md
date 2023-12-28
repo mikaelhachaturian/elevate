@@ -16,3 +16,9 @@ Scale down the env
 ```
 docker compose down
 ```
+
+## Docker Compose Dev Expierince
+
+```
+docker compose watch
+```

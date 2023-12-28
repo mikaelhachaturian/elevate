@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { OAuth2Client, UserRefreshClient } from 'google-auth-library';
+import { initDB } from './db';
 
 dotenv.config();
 
@@ -37,5 +38,9 @@ app.post('/auth/google/refresh-token', async (req: Request, res: Response) => {
   res.json(credentials);
 });
 
+// DB Configuration
+initDB();
+
+// App Start
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
