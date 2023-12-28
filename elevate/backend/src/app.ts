@@ -49,6 +49,15 @@ app.get('/api/users', async (req: Request, res: Response) => {
   return res.status(404).json({ error: 'user not found' });
 });
 
+app.delete('/api/users', async (req: Request, res: Response) => {
+  const user = await getUser(req.query.id_token as string);
+  if (user) {
+    await user.destroy();
+    return res.json({ message: `${user.email} deleted` });
+  }
+  return res.status(404).json({ error: 'user not found' });
+});
+
 // DB Configuration
 initDB();
 
