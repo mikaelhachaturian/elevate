@@ -1,10 +1,12 @@
 import useAuth from '../stores/auth';
-import axios from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import useGoogleProfile from '../stores/googleProfile';
+import { useNavigate } from 'react-router-dom';
 
 const useProfile = () => {
   const data = useAuth((state) => state.session?.data);
   const { profile, setProfile } = useGoogleProfile((state) => state);
+  const navigate = useNavigate();
   if (data) {
     axios
       .get(
@@ -16,10 +18,17 @@ const useProfile = () => {
           },
         }
       )
-      .then((res) => {
+      .then((res: AxiosResponse) => {
         setProfile(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((error: AxiosError) => {
+        if (error.response && error.response.status === 401) {
+          console.log('Error 401: Unauthorized');
+          navigate('/login');
+        } else {
+          console.log(error);
+        }
+      });
   }
   return profile;
 };
