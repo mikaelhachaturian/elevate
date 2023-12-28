@@ -38,7 +38,7 @@ const UserPopUp = () => {
           console.log(error);
         });
     }
-  }, [data]);
+  }, [data, backendURL, setProfile]);
 
   return (
     <>
