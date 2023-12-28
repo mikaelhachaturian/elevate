@@ -9,15 +9,24 @@ services:
       - db
     env_file:
       - elevate/frontend/.env
+    develop:
+      watch:
+        - action: rebuild
+          path: elevate/frontend
 
   elevate-backend:
     build: elevate/backend/.
     ports:
       - '3001:3001'
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     env_file:
       - elevate/backend/.env
+    develop:
+      watch:
+        - action: rebuild
+          path: elevate/backend
 
   db:
     image: mysql:8.2
@@ -27,6 +36,11 @@ services:
       - elevate/backend/.env
     volumes:
       - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mysql-data:

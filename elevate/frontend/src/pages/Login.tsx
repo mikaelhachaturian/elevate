@@ -19,8 +19,10 @@ export const Login = () => {
         code: codeResponse.code,
       });
 
+      const { id_token, expiry_date } = tokens.data;
+
       navigate('/');
-      signIn(tokens.data);
+      signIn({ id_token, expiry_date });
     },
     onError: (errorResponse) => console.log(errorResponse),
   });

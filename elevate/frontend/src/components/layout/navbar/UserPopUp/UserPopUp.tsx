@@ -9,12 +9,37 @@ import {
   PopoverTrigger,
   VStack,
 } from '@chakra-ui/react';
-import useProfile from '../../../../hooks/useProfile';
 import ColorModeSwitch from './ColorModeSwitch';
 import SignOutBtn from './SignOutBtn';
+import { useEffect } from 'react';
+import axios, { AxiosResponse, AxiosError } from 'axios';
+import useAuth from '../../../../stores/auth';
+import useGoogleProfile from '../../../../stores/googleProfile';
 
 const UserPopUp = () => {
-  const profile = useProfile();
+  const { profile, setProfile } = useGoogleProfile((state) => state);
+  const data = useAuth((state) => state.session?.data);
+  const backendURL = import.meta.env.VITE_BACKEND_URL;
+
+  useEffect(() => {
+    if (data) {
+      axios
+        .get(`${backendURL}/api/users`, {
+          params: { id_token: data.id_token },
+          headers: {
+            Accept: 'application/json',
+          },
+        })
+        .then((res: AxiosResponse) => {
+          const { name, given_name, email, picture } = res.data;
+          setProfile({ name, given_name, email, picture });
+        })
+        .catch((error: AxiosError) => {
+          console.log(error);
+        });
+    }
+  }, [data, backendURL, setProfile]);
+
   return (
     <>
       <Popover placement="right-end">
