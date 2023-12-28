@@ -20,12 +20,12 @@ jobs:
 
       - name: lint frontend
         run: |
-          cd frontend
+          cd elevate/frontend
           npm install
           npm run lint
 
       - name: lint backend
         run: |
-          cd backend
+          cd elevate/backend
           npm install
           npm run lint
