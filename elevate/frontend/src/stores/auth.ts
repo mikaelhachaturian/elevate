@@ -1,9 +1,7 @@
 import { create } from 'zustand';
 
 interface Tokens {
-  access_token: string;
   id_token: string;
-  refresh_token: string;
   expiry_date: number;
 }
 

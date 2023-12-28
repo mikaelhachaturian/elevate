@@ -19,7 +19,8 @@ services:
     ports:
       - '3001:3001'
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     env_file:
       - elevate/backend/.env
     develop:
@@ -35,6 +36,11 @@ services:
       - elevate/backend/.env
     volumes:
       - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mysql-data:

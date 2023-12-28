@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import { initUsers } from './models/user';
+import { User, initUsers } from '../models/user';
 
 const getDBInstance = (): Sequelize => {
   const host = process.env.MYSQL_HOST;
@@ -18,6 +18,6 @@ export const initDB = async () => {
   const sequelize = getDBInstance();
   initUsers(sequelize);
   await sequelize.sync({ force: true });
-  sequelize.close();
+  // sequelize.close();
   console.log('All models were synchronized successfully.');
 };

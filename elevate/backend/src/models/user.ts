@@ -1,11 +1,14 @@
 import { Model, Sequelize, DataTypes } from 'sequelize';
 
-class User extends Model {
+export class User extends Model {
   declare id: number;
   declare name: string;
   declare given_name: string | null;
   declare email: string | null;
   declare picture: string | null;
+  declare access_token: string | null;
+  declare refresh_token: string | null;
+  declare id_token: string | null;
 }
 
 export const initUsers = (sequelize: Sequelize) => {
@@ -30,6 +33,18 @@ export const initUsers = (sequelize: Sequelize) => {
       },
       picture: {
         type: new DataTypes.STRING(128),
+        allowNull: true,
+      },
+      access_token: {
+        type: new DataTypes.TEXT(),
+        allowNull: true,
+      },
+      refresh_token: {
+        type: new DataTypes.TEXT(),
+        allowNull: true,
+      },
+      id_token: {
+        type: new DataTypes.TEXT(),
         allowNull: true,
       },
     },

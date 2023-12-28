@@ -1,8 +1,9 @@
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express, { Request, Response } from 'express';
-import cors from 'cors';
 import { OAuth2Client, UserRefreshClient } from 'google-auth-library';
-import { initDB } from './db';
+import { initDB } from './services/db';
+import { getUser, saveUser } from './services/users';
 
 dotenv.config();
 
@@ -21,11 +22,12 @@ app.use(express.json());
 const oAuth2Client = new OAuth2Client(clientId, clientSecret, 'postmessage');
 
 app.post('/auth/google', async (req: Request, res: Response) => {
-  console.log(req.body.code);
   const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
-  console.log(tokens);
+  await saveUser(tokens);
 
-  res.json(tokens);
+  const { id_token, expiry_date } = tokens;
+
+  res.json({ id_token, expiry_date });
 });
 
 app.post('/auth/google/refresh-token', async (req: Request, res: Response) => {
@@ -36,6 +38,15 @@ app.post('/auth/google/refresh-token', async (req: Request, res: Response) => {
   );
   const { credentials } = await user.refreshAccessToken(); // obtain new tokens
   res.json(credentials);
+});
+
+app.get('/api/users', async (req: Request, res: Response) => {
+  const user = await getUser(req.query.id_token as string);
+  if (user) {
+    const { name, email, given_name, picture, id_token } = user;
+    return res.json({ name, email, given_name, picture, id_token });
+  }
+  return res.status(404).json({ error: 'user not found' });
 });
 
 // DB Configuration
