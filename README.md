@@ -17,7 +17,7 @@ Scale down the env
 docker compose down
 ```
 
-## Docker Compose Dev Expierince
+## Docker Compose Dev Expierince (Docker 22+)
 
 ```
 docker compose watch
