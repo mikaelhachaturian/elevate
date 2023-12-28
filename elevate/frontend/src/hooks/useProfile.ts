@@ -1,7 +1,6 @@
-import useAuth from '../stores/auth';
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import useAuth from '../stores/auth';
 import useGoogleProfile from '../stores/googleProfile';
-import { useNavigate } from 'react-router-dom';
 
 const useProfile = () => {
   const data = useAuth((state) => state.session?.data);
