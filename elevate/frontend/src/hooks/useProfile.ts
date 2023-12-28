@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 const useProfile = () => {
   const data = useAuth((state) => state.session?.data);
   const { profile, setProfile } = useGoogleProfile((state) => state);
-  const navigate = useNavigate();
   if (data) {
     axios
       .get(
@@ -23,8 +22,10 @@ const useProfile = () => {
       })
       .catch((error: AxiosError) => {
         if (error.response && error.response.status === 401) {
-          console.log('Error 401: Unauthorized');
-          navigate('/login');
+          console.log(
+            'Error 401: Unauthorized | need to login to Google Again. Redirecting to /login.'
+          );
+          setProfile(undefined);
         } else {
           console.log(error);
         }

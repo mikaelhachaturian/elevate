@@ -9,12 +9,12 @@ interface Profile {
 
 interface ProfileState {
   profile?: Profile;
-  setProfile: (profile: Profile) => void;
+  setProfile: (profile: Profile | undefined) => void;
 }
 
 const useGoogleProfile = create<ProfileState>((set) => ({
   profile: undefined,
-  setProfile: (profile: Profile) =>
+  setProfile: (profile: Profile | undefined) =>
     set(() => {
       return { profile: profile };
     }),
