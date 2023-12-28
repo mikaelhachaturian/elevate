@@ -1,6 +1,9 @@
 name: elevate pr workflow
 
-on: [pull_request]
+on:
+  pull_request:
+    paths:
+      - 'elevate/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
