@@ -4,6 +4,7 @@ import { Home } from './pages/Home';
 import Layout from './pages/Layout';
 import { Login } from './pages/Login';
 import ProtectedRoutes from './routes/ProtectedRoutes';
+import { ThirdParty } from './pages/ThirdParty';
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,10 @@ const router = createBrowserRouter([
         path: '/',
         element: <Layout />,
         errorElement: <ErrorPage />,
-        children: [{ index: true, element: <Home /> }],
+        children: [
+          { index: true, element: <Home /> },
+          { path: '/thirdparty', element: <ThirdParty /> },
+        ],
       },
     ],
   },

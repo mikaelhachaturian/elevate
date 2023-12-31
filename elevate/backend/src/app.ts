@@ -58,6 +58,15 @@ app.delete('/api/users', async (req: Request, res: Response) => {
   return res.status(404).json({ error: 'user not found' });
 });
 
+app.get('/api/thirdparty', async (req: Request, res: Response) => {
+  const providers = [
+    { name: 'mika', cost: '500' },
+    { name: 'alon', cost: '500' },
+  ];
+
+  return res.json({ providers });
+});
+
 // DB Configuration
 initDB();
 

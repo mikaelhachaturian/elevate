@@ -1,6 +1,6 @@
-import { Grid, GridItem, Show } from '@chakra-ui/react';
+import { Center, Grid, GridItem, Show } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
-import NavBar from '../components/layout/navbar/NavBar';
+import NavBar from '../components/Layout/NavBar/NavBar';
 
 const Layout = () => {
   return (
@@ -21,7 +21,9 @@ const Layout = () => {
           </GridItem>
         </Show>
         <GridItem area={'main'}>
-          <Outlet />
+          <Center padding={'3'}>
+            <Outlet />
+          </Center>
         </GridItem>
       </Grid>
     </>
