@@ -4,6 +4,9 @@ import express, { Request, Response } from 'express';
 import { OAuth2Client, UserRefreshClient } from 'google-auth-library';
 import { initDB } from './services/db';
 import { getUser, saveUser } from './services/users';
+import { getProviders } from './services/providers';
+import { createAppointment, getAppointments } from './services/appointments';
+import { Appointment } from './models/appointment';
 
 dotenv.config();
 
@@ -59,12 +62,31 @@ app.delete('/api/users', async (req: Request, res: Response) => {
 });
 
 app.get('/api/thirdparty', async (req: Request, res: Response) => {
-  const providers = [
-    { name: 'mika', cost: '500' },
-    { name: 'alon', cost: '500' },
-  ];
+  const providers = await getProviders();
 
   return res.json({ providers });
+});
+
+app.post('/api/appointments', async (req: Request, res: Response) => {
+  const { provider, text, date, userEmail } = req.body;
+
+  console.log(provider, text, date);
+
+  await createAppointment({
+    with: provider.name,
+    by: userEmail,
+    text,
+    date,
+  } as Appointment);
+
+  res.json({ status: 'ok' });
+});
+
+app.get('/api/appointments', async (req: Request, res: Response) => {
+  const email = req.query.email as string;
+  const appointments = await getAppointments(email);
+
+  return res.json({ appointments });
 });
 
 // DB Configuration

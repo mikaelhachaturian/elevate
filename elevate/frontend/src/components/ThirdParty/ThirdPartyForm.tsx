@@ -1,36 +1,47 @@
 import {
-  HStack,
-  VStack,
-  FormLabel,
+  Box,
+  Button,
+  Center,
   FormControl,
+  FormLabel,
+  HStack,
+  Input,
   Select,
   Textarea,
-  Center,
-  Button,
-  Heading,
-  Box,
-  Input,
+  VStack,
 } from '@chakra-ui/react';
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { IoIosSend } from 'react-icons/io';
 
-interface Provider {
+import ProviderInfo from './ProviderInfo';
+import { useNavigate } from 'react-router-dom';
+import useGoogleProfile from '../../stores/googleProfile';
+
+export interface Provider {
   name: string;
   cost: string;
+  picture: string;
+  description: string;
+  work_times: string;
+  phone: string;
 }
 
 interface FormData {
   provider: Provider | undefined;
+  userEmail: string;
   date: string;
   text: string;
 }
 
 const ThirdPartyForm = () => {
   const [providerOptions, setProviderOptions] = useState<Provider[]>([]);
+  const userEmail = useGoogleProfile((state) => state.profile?.email);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<FormData>({
     provider: undefined,
+    userEmail: userEmail!,
     date: '',
     text: '',
   });
@@ -48,9 +59,14 @@ const ThirdPartyForm = () => {
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLDivElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLDivElement>) => {
     event.preventDefault();
-    console.log('Form data: ', formData);
+    await axios.post(`${backendURL}/api/appointments`, formData, {
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+    navigate('/appointments');
   };
 
   const backendURL = import.meta.env.VITE_BACKEND_URL;
@@ -86,7 +102,7 @@ const ThirdPartyForm = () => {
               </FormLabel>
 
               <FormControl>
-                <FormLabel htmlFor="provider">Provider</FormLabel>
+                <FormLabel htmlFor="provider">Provider:</FormLabel>
                 <Select
                   id="provider"
                   value={formData['provider']?.name}
@@ -99,22 +115,24 @@ const ThirdPartyForm = () => {
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="date">Date of Work</FormLabel>
+                <FormLabel htmlFor="date">Date of Work:</FormLabel>
                 <Input
                   id="date"
                   placeholder="Select Date and Time"
                   size="md"
                   type="datetime-local"
                   onChange={handleChange}
+                  required
                 />
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="extraInfo">Extra Information</FormLabel>
+                <FormLabel htmlFor="extraInfo">Extra Information:</FormLabel>
                 <Textarea
                   id="text"
                   placeholder="Provide some extra information about the appointment.."
                   onChange={handleChange}
+                  required
                 />
               </FormControl>
 
@@ -133,10 +151,7 @@ const ThirdPartyForm = () => {
           </Box>
         </VStack>
         <VStack id="providerInfo" p={8}>
-          <Heading>Info on {formData['provider']?.name}</Heading>
-          <Heading>Name</Heading>
-          <Heading>Work Times</Heading>
-          <Heading>Cost</Heading>
+          <ProviderInfo provider={formData.provider!} />
         </VStack>
       </HStack>
     </>
