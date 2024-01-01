@@ -26,6 +26,19 @@ interface Appointment {
   text: string;
 }
 
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Months are 0-based
+  const year = date.getFullYear();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+
+  return `${day}/${month}/${year} ${hours}:${
+    minutes < 10 ? '0' : ''
+  }${minutes}`;
+};
+
 const Appointments = () => {
   const backendURL = import.meta.env.VITE_BACKEND_URL;
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -95,7 +108,7 @@ const Appointments = () => {
                       <Text>{appointment.with}</Text>
                     </HStack>
                   </Td>
-                  <Td>{appointment.date}</Td>
+                  <Td>{formatDate(appointment.date)}</Td>
                   <Td>{appointment.text}</Td>
                 </Tr>
               ))}
