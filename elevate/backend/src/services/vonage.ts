@@ -33,6 +33,8 @@ const sendSMS = async (phone: string, text: string) => {
     api_key: process.env.VONAGE_API_KEY,
   };
 
+  console.log('Sending SMS with payload: ', payload);
+
   // enable when need to
   // await apiClient
   //   .post(payload)
