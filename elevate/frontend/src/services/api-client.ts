@@ -1,9 +1,5 @@
 import axios from 'axios';
 
-export interface FetchResponse<T> {
-  results: T[];
-}
-
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
 });
@@ -40,7 +36,7 @@ class APIClient<T> {
       })
       .then((res) => res.data);
   };
-  post = async (data: any) => {
+  post = async (data: unknown) => {
     return axiosInstance
       .post<T>(this.endpoint, data, {
         headers: {
