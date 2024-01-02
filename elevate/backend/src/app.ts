@@ -52,8 +52,8 @@ app.get('/api/users/:email', async (req: Request, res: Response) => {
   return res.status(404).json({ error: 'user not found' });
 });
 
-app.delete('/api/users', async (req: Request, res: Response) => {
-  const user = await getUser(req.query.id_token as string);
+app.delete('/api/users/:email', async (req: Request, res: Response) => {
+  const user = await getUser(req.params.email as string);
   if (user) {
     await user.destroy();
     return res.json({ message: `${user.email} deleted` });
@@ -82,8 +82,8 @@ app.post('/api/appointments', async (req: Request, res: Response) => {
   res.json({ status: 'ok' });
 });
 
-app.get('/api/appointments', async (req: Request, res: Response) => {
-  const email = req.query.email as string;
+app.get('/api/appointments/:email', async (req: Request, res: Response) => {
+  const email = req.params.email as string;
   const appointments = await getAppointments(email);
 
   return res.json({ appointments });

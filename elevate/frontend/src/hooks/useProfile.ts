@@ -11,7 +11,7 @@ const useProfile = () => {
   return useQuery({
     queryKey: ['profile', data],
     queryFn: () => apiClient.get(data?.email as string),
-    staleTime: ms('24h'),
+    staleTime: ms('15m'),
   });
 };
 

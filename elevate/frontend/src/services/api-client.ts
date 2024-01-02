@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
 export interface FetchResponse<T> {
   results: T[];
@@ -13,14 +13,36 @@ class APIClient<T> {
   constructor(endpoint: string) {
     this.endpoint = endpoint;
   }
-  getAll = (config: AxiosRequestConfig) => {
+  getAll = async () => {
     return axiosInstance
-      .get<FetchResponse<T>>(this.endpoint, config)
+      .get<T>(this.endpoint, {
+        headers: {
+          Accept: 'application/json',
+        },
+      })
       .then((res) => res.data);
   };
-  get = (id: string) => {
+  get = async (id: string) => {
     return axiosInstance
       .get<T>(this.endpoint + '/' + id, {
+        headers: {
+          Accept: 'application/json',
+        },
+      })
+      .then((res) => res.data);
+  };
+  delete = async (id: string) => {
+    return axiosInstance
+      .delete<T>(this.endpoint + '/' + id, {
+        headers: {
+          Accept: 'application/json',
+        },
+      })
+      .then((res) => res.data);
+  };
+  post = async (data: any) => {
+    return axiosInstance
+      .post<T>(this.endpoint, data, {
         headers: {
           Accept: 'application/json',
         },

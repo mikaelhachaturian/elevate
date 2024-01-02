@@ -1,7 +1,7 @@
 import { HStack, Image, Text, VStack } from '@chakra-ui/react';
-import { Provider } from './ThirdPartyForm';
 import { FaShekelSign } from 'react-icons/fa6';
 import logos from '../../stores/providerLogos';
+import { Provider } from '../../hooks/useThirdParties';
 
 interface Props {
   provider: Provider;

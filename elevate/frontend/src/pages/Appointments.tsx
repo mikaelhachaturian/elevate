@@ -3,6 +3,7 @@ import {
   HStack,
   Heading,
   Image,
+  Spinner,
   Table,
   TableCaption,
   TableContainer,
@@ -14,17 +15,8 @@ import {
   Tr,
   VStack,
 } from '@chakra-ui/react';
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useEffect, useState } from 'react';
-import useAuth from '../stores/auth';
+import useAppointments from '../hooks/useAppointments';
 import logos from '../stores/providerLogos';
-
-interface Appointment {
-  by: string;
-  with: string;
-  date: string;
-  text: string;
-}
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -40,30 +32,14 @@ const formatDate = (dateString: string) => {
 };
 
 const Appointments = () => {
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
-  const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const userEmail = useAuth((state) => state.session?.data.email);
+  const { data, error, isLoading } = useAppointments();
 
-  useEffect(() => {
-    if (userEmail) {
-      axios
-        .get(`${backendURL}/api/appointments`, {
-          params: { email: userEmail },
-          headers: {
-            Accept: 'application/json',
-          },
-        })
-        .then((res: AxiosResponse) => {
-          const { appointments } = res.data;
-          setAppointments(appointments);
-        })
-        .catch((error: AxiosError) => {
-          console.log(error);
-        });
-    }
-  }, [userEmail]);
+  if (isLoading) {
+    return <Spinner />;
+  }
+  if (error || !data) throw error;
 
-  if (appointments.length === 0) {
+  if (!data?.appointments) {
     return (
       <VStack p={10} spacing={10} m={4}>
         <Heading>My Appointments</Heading>
@@ -95,8 +71,8 @@ const Appointments = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {appointments.map((appointment) => (
-                <Tr key={appointment.date}>
+              {data.appointments.map((appointment, index) => (
+                <Tr key={index}>
                   <Td>
                     <HStack>
                       <Image

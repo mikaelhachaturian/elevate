@@ -10,22 +10,14 @@ import {
   Textarea,
   VStack,
 } from '@chakra-ui/react';
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { IoIosSend } from 'react-icons/io';
 
 import { useNavigate } from 'react-router-dom';
+import { Provider } from '../../hooks/useThirdParties';
+import APIClient from '../../services/api-client';
 import useAuth from '../../stores/auth';
 import ProviderInfo from './ProviderInfo';
-
-export interface Provider {
-  name: string;
-  cost: string;
-  picture: string;
-  description: string;
-  work_times: string;
-  phone: string;
-}
 
 interface FormData {
   provider: Provider | undefined;
@@ -34,13 +26,18 @@ interface FormData {
   text: string;
 }
 
-const ThirdPartyForm = () => {
-  const [providerOptions, setProviderOptions] = useState<Provider[]>([]);
+interface Props {
+  providers: Provider[];
+}
+
+const apiClient = new APIClient('/api/appointments');
+
+const ThirdPartyForm = ({ providers }: Props) => {
   const userEmail = useAuth((state) => state.session?.data.email);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<FormData>({
-    provider: undefined,
+    provider: providers[0],
     userEmail: userEmail!,
     date: '',
     text: '',
@@ -53,43 +50,16 @@ const ThirdPartyForm = () => {
     setFormData((prevState) => ({
       ...prevState,
       [id]:
-        type === 'select-one'
-          ? providerOptions.find((p) => p.name === value)
-          : value,
+        type === 'select-one' ? providers.find((p) => p.name === value) : value,
     }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLDivElement>) => {
     event.preventDefault();
-    await axios.post(`${backendURL}/api/appointments`, formData, {
-      headers: {
-        Accept: 'application/json',
-      },
-    });
+
+    await apiClient.post(formData);
     navigate('/appointments');
   };
-
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
-
-  useEffect(() => {
-    axios
-      .get(`${backendURL}/api/thirdparty`, {
-        headers: {
-          Accept: 'application/json',
-        },
-      })
-      .then((res: AxiosResponse) => {
-        const { providers } = res.data;
-        setProviderOptions(providers);
-        setFormData((prevState) => ({
-          ...prevState,
-          provider: providers[0],
-        }));
-      })
-      .catch((error: AxiosError) => {
-        console.log(error);
-      });
-  }, []);
 
   return (
     <>
@@ -108,7 +78,7 @@ const ThirdPartyForm = () => {
                   value={formData['provider']?.name}
                   onChange={handleChange}
                 >
-                  {providerOptions.map((option) => (
+                  {providers.map((option) => (
                     <option key={option.name}>{option.name}</option>
                   ))}
                 </Select>
