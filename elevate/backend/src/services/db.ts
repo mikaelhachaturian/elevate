@@ -1,5 +1,8 @@
 import { Sequelize } from 'sequelize';
-import { User, initUsers } from '../models/user';
+import { initProviders } from '../models/provider';
+import { initUsers } from '../models/user';
+import { populateProviders } from './providers';
+import { initAppointments } from '../models/appointment';
 
 const getDBInstance = (): Sequelize => {
   const host = process.env.MYSQL_HOST;
@@ -17,7 +20,10 @@ const getDBInstance = (): Sequelize => {
 export const initDB = async () => {
   const sequelize = getDBInstance();
   initUsers(sequelize);
+  initProviders(sequelize);
+  initAppointments(sequelize);
   await sequelize.sync({ force: true });
+  await populateProviders();
   // sequelize.close();
   console.log('All models were synchronized successfully.');
 };
