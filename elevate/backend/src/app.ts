@@ -7,6 +7,8 @@ import { getUser, saveUser } from './services/users';
 import { getProviders } from './services/providers';
 import { createAppointment, getAppointments } from './services/appointments';
 import { Appointment } from './models/appointment';
+import sendSMS from './services/vonage';
+import { formatDate } from './services/utils';
 
 dotenv.config();
 
@@ -70,14 +72,17 @@ app.get('/api/thirdparty', async (req: Request, res: Response) => {
 app.post('/api/appointments', async (req: Request, res: Response) => {
   const { provider, text, date, userEmail } = req.body;
 
-  console.log(provider, text, date);
-
-  await createAppointment({
+  const appointment = await createAppointment({
     with: provider.name,
     by: userEmail,
     text,
     date,
   } as Appointment);
+
+  sendSMS(
+    provider.phone,
+    `New Appointment at ${formatDate(date)}.\nUser Info: ${appointment.text}\n`
+  );
 
   res.json({ status: 'ok' });
 });

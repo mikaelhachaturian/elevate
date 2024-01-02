@@ -10,14 +10,14 @@ export const populateProviders = async () => {
   });
   const Provider2 = await Provider.create({
     name: 'Dorian Kitchens',
-    phone: '0542469444',
+    phone: '0504687777',
     description: 'Best kitchens specialists.',
     work_times: '09:00-18:00',
     cost: '2500',
   });
   const Provider3 = await Provider.create({
     name: 'Tomer Air',
-    phone: '0542469444',
+    phone: '0528403223',
     description: 'Hot? Cold? We got what you need.',
     work_times: '08:30-16:00',
     cost: '5000',
