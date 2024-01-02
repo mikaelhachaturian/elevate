@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 interface Tokens {
   id_token: string;
+  email: string;
   expiry_date: number;
 }
 

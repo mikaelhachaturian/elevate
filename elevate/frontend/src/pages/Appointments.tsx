@@ -2,21 +2,21 @@ import {
   Divider,
   HStack,
   Heading,
+  Image,
   Table,
   TableCaption,
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
   VStack,
-  Image,
 } from '@chakra-ui/react';
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
-import { Text } from '@chakra-ui/react';
-import useGoogleProfile from '../stores/googleProfile';
+import useAuth from '../stores/auth';
 import logos from '../stores/providerLogos';
 
 interface Appointment {
@@ -42,7 +42,7 @@ const formatDate = (dateString: string) => {
 const Appointments = () => {
   const backendURL = import.meta.env.VITE_BACKEND_URL;
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const userEmail = useGoogleProfile((state) => state.profile?.email);
+  const userEmail = useAuth((state) => state.session?.data.email);
 
   useEffect(() => {
     if (userEmail) {
@@ -96,7 +96,7 @@ const Appointments = () => {
             </Thead>
             <Tbody>
               {appointments.map((appointment) => (
-                <Tr>
+                <Tr key={appointment.date}>
                   <Td>
                     <HStack>
                       <Image

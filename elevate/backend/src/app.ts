@@ -26,11 +26,11 @@ const oAuth2Client = new OAuth2Client(clientId, clientSecret, 'postmessage');
 
 app.post('/auth/google', async (req: Request, res: Response) => {
   const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
-  await saveUser(tokens);
+  const user = await saveUser(tokens);
 
   const { id_token, expiry_date } = tokens;
 
-  res.json({ id_token, expiry_date });
+  res.json({ id_token, expiry_date, email: user.email });
 });
 
 app.post('/auth/google/refresh-token', async (req: Request, res: Response) => {
@@ -43,8 +43,8 @@ app.post('/auth/google/refresh-token', async (req: Request, res: Response) => {
   res.json(credentials);
 });
 
-app.get('/api/users', async (req: Request, res: Response) => {
-  const user = await getUser(req.query.id_token as string);
+app.get('/api/users/:email', async (req: Request, res: Response) => {
+  const user = await getUser(req.params.email as string);
   if (user) {
     const { name, email, given_name, picture, id_token } = user;
     return res.json({ name, email, given_name, picture, id_token });

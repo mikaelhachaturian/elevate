@@ -14,9 +14,9 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { IoIosSend } from 'react-icons/io';
 
-import ProviderInfo from './ProviderInfo';
 import { useNavigate } from 'react-router-dom';
-import useGoogleProfile from '../../stores/googleProfile';
+import useAuth from '../../stores/auth';
+import ProviderInfo from './ProviderInfo';
 
 export interface Provider {
   name: string;
@@ -36,7 +36,7 @@ interface FormData {
 
 const ThirdPartyForm = () => {
   const [providerOptions, setProviderOptions] = useState<Provider[]>([]);
-  const userEmail = useGoogleProfile((state) => state.profile?.email);
+  const userEmail = useAuth((state) => state.session?.data.email);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<FormData>({
@@ -109,7 +109,7 @@ const ThirdPartyForm = () => {
                   onChange={handleChange}
                 >
                   {providerOptions.map((option) => (
-                    <option>{option.name}</option>
+                    <option key={option.name}>{option.name}</option>
                   ))}
                 </Select>
               </FormControl>
