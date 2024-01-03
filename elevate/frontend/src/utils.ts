@@ -5,3 +5,10 @@ export const getEnv = (key: string, defaultValue: string): string => {
   }
   return value;
 };
+
+export function hasField<T extends object>(
+  obj: T,
+  key: keyof any
+): key is keyof T {
+  return key in obj;
+}

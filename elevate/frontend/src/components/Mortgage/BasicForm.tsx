@@ -2,12 +2,17 @@ import { FormControl, FormLabel, Input, Select } from '@chakra-ui/react';
 import { ChangeEvent } from 'react';
 
 interface Props {
-  onChangeFn: (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-    borrowerKey: 'borrower' | 'borrower2'
-  ) => void;
-  borrowerKey: 'borrower' | 'borrower2';
-  isOpen: boolean;
+  onChangeFn: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+}
+
+export interface BasicInfo {
+  firstName: string;
+  lastName: string;
+  idNumber: string;
+  phoneNumber: string;
+  email: string;
+  dateOfBirth: string;
+  familyStatus: string;
 }
 
 export const defaultBasicInfo = {
@@ -20,64 +25,46 @@ export const defaultBasicInfo = {
   familyStatus: 'Single',
 };
 
-const BasicForm = ({ onChangeFn, borrowerKey, isOpen }: Props) => {
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    // Call onChangeFn with both arguments
-    onChangeFn(e, borrowerKey);
-  };
+const BasicForm = ({ onChangeFn }: Props) => {
   return (
     <>
-      <FormControl isRequired={isOpen}>
+      <FormControl isRequired>
         <FormLabel htmlFor="firstName">First Name:</FormLabel>
-        <Input
-          id="firstName"
-          placeholder="First Name"
-          onChange={handleInputChange}
-        />
+        <Input id="firstName" placeholder="First Name" onChange={onChangeFn} />
       </FormControl>
 
-      <FormControl isRequired={isOpen}>
+      <FormControl isRequired>
         <FormLabel htmlFor="lastName">Last Name:</FormLabel>
-        <Input
-          id="lastName"
-          placeholder="Last Name"
-          onChange={handleInputChange}
-        />
+        <Input id="lastName" placeholder="Last Name" onChange={onChangeFn} />
       </FormControl>
 
-      <FormControl isRequired={isOpen}>
+      <FormControl isRequired>
         <FormLabel htmlFor="idNumber">ID Number:</FormLabel>
-        <Input
-          id="idNumber"
-          placeholder="ID Number"
-          onChange={handleInputChange}
-        />
+        <Input id="idNumber" placeholder="ID Number" onChange={onChangeFn} />
       </FormControl>
 
-      <FormControl isRequired={isOpen}>
+      <FormControl isRequired>
         <FormLabel htmlFor="phoneNumber">Phone Number:</FormLabel>
         <Input
           id="phoneNumber"
           placeholder="Phone Number"
-          onChange={handleInputChange}
+          onChange={onChangeFn}
         />
       </FormControl>
 
-      <FormControl isRequired={isOpen}>
+      <FormControl isRequired>
         <FormLabel htmlFor="email">Email:</FormLabel>
         <Input
           id="email"
           placeholder="example@hotmail.com"
           type="email"
-          onChange={handleInputChange}
+          onChange={onChangeFn}
         />
       </FormControl>
 
       <FormControl>
         <FormLabel htmlFor="familyStatus">Family Status:</FormLabel>
-        <Select id="familyStatus" variant="filled" onChange={handleInputChange}>
+        <Select id="familyStatus" variant="filled" onChange={onChangeFn}>
           <option key={'single'}>Single</option>
           <option key={'married'}>Married</option>
           <option key={'Widowed'}>Widowed</option>
@@ -90,8 +77,8 @@ const BasicForm = ({ onChangeFn, borrowerKey, isOpen }: Props) => {
           id="dateOfBirth"
           size="md"
           type="date"
-          onChange={handleInputChange}
-          required={isOpen}
+          onChange={onChangeFn}
+          required
         />
       </FormControl>
     </>

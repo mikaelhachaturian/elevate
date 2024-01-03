@@ -1,76 +1,44 @@
-import {
-  Box,
-  Button,
-  Collapse,
-  FormLabel,
-  HStack,
-  Heading,
-  VStack,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Button, FormLabel, VStack } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import { IoIosSend } from 'react-icons/io';
 
-import BasicForm, { defaultBasicInfo } from './BasicForm';
-
-interface BasicInfo {
-  firstName: string;
-  lastName: string;
-  idNumber: string;
-  phoneNumber: string;
-  email: string;
-  dateOfBirth: string;
-  familyStatus: string;
-}
+import BasicForm, { BasicInfo, defaultBasicInfo } from './BasicForm';
+import { hasField } from '../../utils';
 
 interface FormData {
-  borrower: BasicInfo;
-  borrower2: BasicInfo;
+  borrowerBasicInfo: BasicInfo;
 }
 
 // const apiClient = new APIClient('/api/appointments');
 
 const MortgageForm = () => {
-  const { isOpen, onToggle } = useDisclosure();
   // const navigate = useNavigate();
 
   const [formData, setFormData] = useState<FormData>({
-    borrower: defaultBasicInfo,
-    borrower2: defaultBasicInfo,
+    borrowerBasicInfo: defaultBasicInfo,
   });
 
-  const updateBorrowerInfo = (
-    borrowerKey: 'borrower' | 'borrower2',
-    newInfo: BasicInfo
-  ) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [borrowerKey]: newInfo,
-    }));
-  };
-
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-    borrowerKey: 'borrower' | 'borrower2'
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { id, type, value } = e.target;
-    // Check if the borrower info exists, if not, provide a default value
-    const currentBorrowerInfo = formData[borrowerKey] ?? {
-      firstName: '',
-      lastName: '',
-      idNumber: '',
-      phoneNumber: '',
-      email: '',
-      dateOfBirth: '',
-      familyStatus: '',
-    };
+    if (hasField(formData.borrowerBasicInfo, id)) {
+      // Check if the borrower info exists, if not, provide a default value
+      const currentBorrowerInfo =
+        formData.borrowerBasicInfo ?? defaultBasicInfo;
 
-    const updatedBorrowerInfo: BasicInfo = {
-      ...currentBorrowerInfo,
-      [id]: type === 'select-one' ? e.target.value : value,
-    };
+      const updatedBorrowerInfo: BasicInfo = {
+        ...currentBorrowerInfo,
+        [id]: type === 'select-one' ? e.target.value : value,
+      };
 
-    updateBorrowerInfo(borrowerKey, updatedBorrowerInfo);
+      setFormData((prevState) => ({
+        ...prevState,
+        borrowerBasicInfo: updatedBorrowerInfo,
+      }));
+    } else {
+      console.log('different type');
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLDivElement>) => {
@@ -91,22 +59,7 @@ const MortgageForm = () => {
               Please fill the following info to get an offer for mortgage from
               the banks:
             </FormLabel>
-            <BasicForm
-              onChangeFn={handleChange}
-              borrowerKey="borrower"
-              isOpen={true}
-            />
-
-            <Button onClick={onToggle}>Add Another Borrower</Button>
-            <Collapse in={isOpen}>
-              <Box w={'100%'}>
-                <BasicForm
-                  onChangeFn={handleChange}
-                  borrowerKey="borrower2"
-                  isOpen={isOpen}
-                />
-              </Box>
-            </Collapse>
+            <BasicForm onChangeFn={handleChange} />
 
             <Button
               size="sm"
@@ -115,7 +68,7 @@ const MortgageForm = () => {
               rightIcon={<IoIosSend />}
               type="submit"
             >
-              Submit
+              Next
             </Button>
           </VStack>
         </Box>
