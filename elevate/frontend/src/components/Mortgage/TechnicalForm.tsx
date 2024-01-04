@@ -1,8 +1,15 @@
-import { FormControl, FormLabel, Input, Select } from '@chakra-ui/react';
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  VStack,
+} from '@chakra-ui/react';
 import { ChangeEvent } from 'react';
 
 interface Props {
   onChangeFn: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  values: TechnicalInfo;
 }
 
 export interface TechnicalInfo {
@@ -27,42 +34,67 @@ export const defaultTechnicalInfo = {
   equity: '',
 };
 
-const TechnicalForm = ({ onChangeFn }: Props) => {
+const TechnicalForm = ({ onChangeFn, values }: Props) => {
   return (
-    <>
+    <VStack w={'100%'}>
       <FormControl isRequired>
         <FormLabel htmlFor="mortgageSum">Requested Mortgage Sum:</FormLabel>
-        <Input id="mortgageSum" onChange={onChangeFn} />
+        <Input
+          id="mortgageSum"
+          onChange={onChangeFn}
+          value={values.mortgageSum ?? ''}
+        />
       </FormControl>
 
       <FormControl isRequired>
         <FormLabel htmlFor="paybackYears">Years for Payback:</FormLabel>
-        <Input id="paybackYears" onChange={onChangeFn} />
+        <Input
+          id="paybackYears"
+          onChange={onChangeFn}
+          value={values.paybackYears ?? ''}
+        />
       </FormControl>
 
       <FormControl isRequired>
         <FormLabel htmlFor="estateValue">Estate Value:</FormLabel>
-        <Input id="estateValue" onChange={onChangeFn} />
+        <Input
+          id="estateValue"
+          onChange={onChangeFn}
+          value={values.estateValue ?? ''}
+        />
       </FormControl>
 
       <FormControl isRequired>
         <FormLabel htmlFor="estateCity">Estate City:</FormLabel>
-        <Input id="estateCity" onChange={onChangeFn} />
+        <Input
+          id="estateCity"
+          onChange={onChangeFn}
+          value={values.estateCity ?? ''}
+        />
       </FormControl>
 
       <FormControl isRequired>
         <FormLabel htmlFor="monthlySalary">Monthly Salary:</FormLabel>
-        <Input id="monthlySalary" onChange={onChangeFn} />
+        <Input
+          id="monthlySalary"
+          onChange={onChangeFn}
+          value={values.monthlySalary ?? ''}
+        />
       </FormControl>
 
       <FormControl isRequired>
         <FormLabel htmlFor="equity">Equity:</FormLabel>
-        <Input id="equity" onChange={onChangeFn} />
+        <Input id="equity" onChange={onChangeFn} value={values.equity ?? ''} />
       </FormControl>
 
       <FormControl>
         <FormLabel htmlFor="employmentSatus">Employment Status:</FormLabel>
-        <Select id="employmentSatus" variant="filled" onChange={onChangeFn}>
+        <Select
+          id="employmentSatus"
+          variant="filled"
+          onChange={onChangeFn}
+          value={values.employmentSatus ?? 'Employed'}
+        >
           <option key={'employed'}>Employed</option>
           <option key={'unemployed'}>Unemployed</option>
           <option key={'selfEmployed'}>Self-Employed</option>
@@ -75,11 +107,12 @@ const TechnicalForm = ({ onChangeFn }: Props) => {
           id="dateOfMortgage"
           size="md"
           type="date"
+          value={values.dateOfMortgage ?? ''}
           onChange={onChangeFn}
           required
         />
       </FormControl>
-    </>
+    </VStack>
   );
 };
 

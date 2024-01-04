@@ -1,9 +1,9 @@
-import { Box, Button, FormLabel, VStack } from '@chakra-ui/react';
+import { Button, FormLabel, HStack, VStack } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
-import { IoIosSend } from 'react-icons/io';
+import { IoIosArrowBack, IoIosArrowForward, IoIosSend } from 'react-icons/io';
 
-import BasicForm, { BasicInfo, defaultBasicInfo } from './BasicForm';
 import { hasField } from '../../utils';
+import BasicForm, { BasicInfo, defaultBasicInfo } from './BasicForm';
 import TechnicalForm, {
   TechnicalInfo,
   defaultTechnicalInfo,
@@ -18,6 +18,10 @@ interface FormData {
 
 const MortgageForm = () => {
   // const navigate = useNavigate();
+  const [currentStep, setCurrentStep] = useState(1);
+  const nextStep = () => setCurrentStep(currentStep + 1);
+  const prevStep = () => setCurrentStep(currentStep - 1);
+  const totalSteps = 2;
 
   const [formData, setFormData] = useState<FormData>({
     borrowerBasicInfo: defaultBasicInfo,
@@ -69,18 +73,58 @@ const MortgageForm = () => {
     // navigate('/');
   };
 
+  const renderFormStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <BasicForm
+            onChangeFn={handleChange}
+            values={formData.borrowerBasicInfo}
+          />
+        );
+      case 2:
+        return (
+          <TechnicalForm
+            onChangeFn={handleChange}
+            values={formData.technicalInfo}
+          />
+        );
+    }
+  };
+
   return (
     <>
-      <VStack id="form">
-        <Box p={4}>
-          <VStack as="form" onSubmit={handleSubmit} spacing={4}>
-            <FormLabel as="legend">
-              Please fill the following info to get an offer for mortgage from
-              the banks:
-            </FormLabel>
-            <BasicForm onChangeFn={handleChange} />
-            <TechnicalForm onChangeFn={handleChange} />
+      <VStack id="form" as="form" onSubmit={handleSubmit}>
+        <FormLabel as="legend">
+          Please fill the following info to get an offer for mortgage from the
+          banks:
+        </FormLabel>
 
+        {renderFormStep()}
+        <HStack>
+          {currentStep > 1 && (
+            <Button
+              size="sm"
+              bg={'#DDD8C3'}
+              color={'#3E373D'}
+              rightIcon={<IoIosArrowBack />}
+              onClick={prevStep}
+            >
+              Previous
+            </Button>
+          )}
+          {currentStep < totalSteps && (
+            <Button
+              size="sm"
+              bg={'#DDD8C3'}
+              color={'#3E373D'}
+              rightIcon={<IoIosArrowForward />}
+              onClick={nextStep}
+            >
+              Next
+            </Button>
+          )}
+          {currentStep === totalSteps && (
             <Button
               size="sm"
               bg={'#DDD8C3'}
@@ -88,10 +132,10 @@ const MortgageForm = () => {
               rightIcon={<IoIosSend />}
               type="submit"
             >
-              Next
+              Submit
             </Button>
-          </VStack>
-        </Box>
+          )}
+        </HStack>
       </VStack>
     </>
   );

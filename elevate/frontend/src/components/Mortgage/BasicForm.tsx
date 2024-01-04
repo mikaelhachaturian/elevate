@@ -1,8 +1,15 @@
-import { FormControl, FormLabel, Input, Select } from '@chakra-ui/react';
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  VStack,
+} from '@chakra-ui/react';
 import { ChangeEvent } from 'react';
 
 interface Props {
   onChangeFn: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  values: BasicInfo;
 }
 
 export interface BasicInfo {
@@ -25,22 +32,37 @@ export const defaultBasicInfo = {
   familyStatus: 'Single',
 };
 
-const BasicForm = ({ onChangeFn }: Props) => {
+const BasicForm = ({ onChangeFn, values }: Props) => {
   return (
-    <>
+    <VStack w={'100%'}>
       <FormControl isRequired>
         <FormLabel htmlFor="firstName">First Name:</FormLabel>
-        <Input id="firstName" placeholder="First Name" onChange={onChangeFn} />
+        <Input
+          id="firstName"
+          placeholder="First Name"
+          onChange={onChangeFn}
+          value={values.firstName ?? ''}
+        />
       </FormControl>
 
       <FormControl isRequired>
         <FormLabel htmlFor="lastName">Last Name:</FormLabel>
-        <Input id="lastName" placeholder="Last Name" onChange={onChangeFn} />
+        <Input
+          id="lastName"
+          placeholder="Last Name"
+          onChange={onChangeFn}
+          value={values.lastName ?? ''}
+        />
       </FormControl>
 
       <FormControl isRequired>
         <FormLabel htmlFor="idNumber">ID Number:</FormLabel>
-        <Input id="idNumber" placeholder="ID Number" onChange={onChangeFn} />
+        <Input
+          id="idNumber"
+          placeholder="ID Number"
+          onChange={onChangeFn}
+          value={values.idNumber ?? ''}
+        />
       </FormControl>
 
       <FormControl isRequired>
@@ -48,6 +70,7 @@ const BasicForm = ({ onChangeFn }: Props) => {
         <Input
           id="phoneNumber"
           placeholder="Phone Number"
+          value={values.phoneNumber ?? ''}
           onChange={onChangeFn}
         />
       </FormControl>
@@ -56,7 +79,8 @@ const BasicForm = ({ onChangeFn }: Props) => {
         <FormLabel htmlFor="email">Email:</FormLabel>
         <Input
           id="email"
-          placeholder="example@hotmail.com"
+          placeholder="example@mail.com"
+          value={values.email ?? ''}
           type="email"
           onChange={onChangeFn}
         />
@@ -64,7 +88,12 @@ const BasicForm = ({ onChangeFn }: Props) => {
 
       <FormControl>
         <FormLabel htmlFor="familyStatus">Family Status:</FormLabel>
-        <Select id="familyStatus" variant="filled" onChange={onChangeFn}>
+        <Select
+          id="familyStatus"
+          variant="filled"
+          onChange={onChangeFn}
+          value={values.familyStatus ?? 'Single'}
+        >
           <option key={'single'}>Single</option>
           <option key={'married'}>Married</option>
           <option key={'Widowed'}>Widowed</option>
@@ -77,11 +106,12 @@ const BasicForm = ({ onChangeFn }: Props) => {
           id="dateOfBirth"
           size="md"
           type="date"
+          value={values.dateOfBirth ?? ''}
           onChange={onChangeFn}
           required
         />
       </FormControl>
-    </>
+    </VStack>
   );
 };
 
