@@ -11,9 +11,10 @@ const Menu = () => {
         <Link to="/thirdparty">
           <Button
             size="sm"
-            bg={'#DDD8C3'}
-            color={'#3E373D'}
+            color={'#DDD8C3'}
+            _hover={{ bg: '#836862' }}
             leftIcon={<RiContactsBookFill />}
+            variant="ghost"
           >
             Third Party Providers
           </Button>
@@ -21,9 +22,10 @@ const Menu = () => {
         <Link to="/appointments">
           <Button
             size="sm"
-            bg={'#DDD8C3'}
-            color={'#3E373D'}
+            color={'#DDD8C3'}
             leftIcon={<FaRegCalendarCheck />}
+            _hover={{ bg: '#836862' }}
+            variant="ghost"
           >
             My Appointments
           </Button>
@@ -31,9 +33,10 @@ const Menu = () => {
         <Link to="/mortgages">
           <Button
             size="sm"
-            bg={'#DDD8C3'}
-            color={'#3E373D'}
+            color={'#DDD8C3'}
             leftIcon={<RiBankFill />}
+            _hover={{ bg: '#836862' }}
+            variant="ghost"
           >
             Mortgage Offer
           </Button>
