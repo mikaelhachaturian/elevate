@@ -23,7 +23,7 @@ interface Props {
 
 const apiClient = new BanksAPIClient<Offer>('/random_bank');
 
-const MortgageForm = ({ offer }: Props) => {
+const MortgageForm = ({ offer, setOffer }: Props) => {
   const [currentStep, setCurrentStep] = useState(1);
   const nextStep = () => setCurrentStep(currentStep + 1);
   const prevStep = () => setCurrentStep(currentStep - 1);
@@ -74,7 +74,7 @@ const MortgageForm = ({ offer }: Props) => {
     event.preventDefault();
 
     offer = await apiClient.get();
-    console.log(offer);
+    setOffer(offer);
   };
 
   const renderFormStep = () => {
