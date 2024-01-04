@@ -22,16 +22,6 @@ export interface TechnicalInfo {
   equity: string;
 }
 
-export const defaultTechnicalInfo = {
-  mortgageSum: '',
-  estateCity: '',
-  estateValue: '',
-  dateOfMortgage: '',
-  employmentSatus: 'Employed',
-  monthlySalary: '',
-  equity: '',
-};
-
 const TechnicalForm = ({ onChangeFn, values }: Props) => {
   return (
     <VStack w={'100%'}>

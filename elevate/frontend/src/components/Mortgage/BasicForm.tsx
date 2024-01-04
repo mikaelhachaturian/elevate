@@ -22,16 +22,6 @@ export interface BasicInfo {
   familyStatus: string;
 }
 
-export const defaultBasicInfo = {
-  firstName: '',
-  lastName: '',
-  idNumber: '',
-  phoneNumber: '',
-  email: '',
-  dateOfBirth: '',
-  familyStatus: 'Single',
-};
-
 const BasicForm = ({ onChangeFn, values }: Props) => {
   return (
     <VStack w={'100%'}>

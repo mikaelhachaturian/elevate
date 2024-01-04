@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # List of offers
-banks = ["Leumi", "Mizrahi", "Poalim"]
+banks = ["Leumi", "Mizrahi", "Poalim", "Discount", "Mercantile"]
 Fixed = [
     {"id": 1, "sum": 250000, "interest": 1.5, "years": 30, "monthlyFee": 980},
     {"id": 2, "sum": 250000, "interest": 1.6, "years": 25, "monthlyFee": 1005},

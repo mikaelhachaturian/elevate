@@ -6,10 +6,7 @@ export const getEnv = (key: string, defaultValue: string): string => {
   return value;
 };
 
-export function hasField<T extends object>(
-  obj: T,
-  key: keyof any
-): key is keyof T {
+export function hasField<T extends object>(obj: T, key: PropertyKey): boolean {
   return key in obj;
 }
 

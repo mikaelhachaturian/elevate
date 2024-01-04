@@ -2,14 +2,11 @@ import { Button, FormLabel, HStack, VStack } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward, IoIosSend } from 'react-icons/io';
 
+import { Offer } from '../../pages/MortgageOffer';
 import BanksAPIClient from '../../services/banks-api-client';
 import { hasField } from '../../utils';
-import BasicForm, { BasicInfo, defaultBasicInfo } from './BasicForm';
-import TechnicalForm, {
-  TechnicalInfo,
-  defaultTechnicalInfo,
-} from './TechnicalForm';
-import { Offer } from '../../pages/MortgageOffer';
+import BasicForm, { BasicInfo } from './BasicForm';
+import TechnicalForm, { TechnicalInfo } from './TechnicalForm';
 
 interface FormData {
   borrowerBasicInfo: BasicInfo;
@@ -22,6 +19,26 @@ interface Props {
 }
 
 const apiClient = new BanksAPIClient<Offer>('/random_bank');
+
+const defaultBasicInfo = {
+  firstName: '',
+  lastName: '',
+  idNumber: '',
+  phoneNumber: '',
+  email: '',
+  dateOfBirth: '',
+  familyStatus: 'Single',
+};
+
+const defaultTechnicalInfo = {
+  mortgageSum: '',
+  estateCity: '',
+  estateValue: '',
+  dateOfMortgage: '',
+  employmentSatus: 'Employed',
+  monthlySalary: '',
+  equity: '',
+};
 
 const MortgageForm = ({ offer, setOffer }: Props) => {
   const [currentStep, setCurrentStep] = useState(1);
