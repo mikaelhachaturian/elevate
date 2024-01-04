@@ -44,7 +44,7 @@ const Appointments = () => {
   }
   if (error || !data) throw error;
 
-  if (!data?.appointments) {
+  if (data?.appointments.length === 0) {
     return (
       <VStack p={10} spacing={10} m={4}>
         <Heading>My Appointments</Heading>
