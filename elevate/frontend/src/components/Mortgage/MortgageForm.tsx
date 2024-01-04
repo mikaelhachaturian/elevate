@@ -4,9 +4,14 @@ import { IoIosSend } from 'react-icons/io';
 
 import BasicForm, { BasicInfo, defaultBasicInfo } from './BasicForm';
 import { hasField } from '../../utils';
+import TechnicalForm, {
+  TechnicalInfo,
+  defaultTechnicalInfo,
+} from './TechnicalForm';
 
 interface FormData {
   borrowerBasicInfo: BasicInfo;
+  technicalInfo: TechnicalInfo;
 }
 
 // const apiClient = new APIClient('/api/appointments');
@@ -16,6 +21,7 @@ const MortgageForm = () => {
 
   const [formData, setFormData] = useState<FormData>({
     borrowerBasicInfo: defaultBasicInfo,
+    technicalInfo: defaultTechnicalInfo,
   });
 
   const handleChange = (
@@ -36,8 +42,21 @@ const MortgageForm = () => {
         ...prevState,
         borrowerBasicInfo: updatedBorrowerInfo,
       }));
-    } else {
-      console.log('different type');
+    }
+    if (hasField(formData.technicalInfo, id)) {
+      // Check if the borrower info exists, if not, provide a default value
+      const currentTechnicalInfo =
+        formData.technicalInfo ?? defaultTechnicalInfo;
+
+      const updatedTechnical: TechnicalInfo = {
+        ...currentTechnicalInfo,
+        [id]: type === 'select-one' ? e.target.value : value,
+      };
+
+      setFormData((prevState) => ({
+        ...prevState,
+        technicalInfo: updatedTechnical,
+      }));
     }
   };
 
@@ -60,6 +79,7 @@ const MortgageForm = () => {
               the banks:
             </FormLabel>
             <BasicForm onChangeFn={handleChange} />
+            <TechnicalForm onChangeFn={handleChange} />
 
             <Button
               size="sm"
