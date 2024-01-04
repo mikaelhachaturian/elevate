@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import ms from 'ms';
-import APIClient from '../services/api-client';
+import BackendAPIClient from '../services/api-client';
 import useAuth from '../stores/auth';
 import { Profile } from '../stores/googleProfile';
 
-const apiClient = new APIClient<Profile>('/api/users');
+const apiClient = new BackendAPIClient<Profile>('/api/users');
 
 const useProfile = () => {
   const data = useAuth((state) => state.session?.data);

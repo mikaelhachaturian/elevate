@@ -3,7 +3,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { FaGoogle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/elevate-icons/png/logo-color.png';
-import APIClient from '../services/api-client';
+import BackendAPIClient from '../services/api-client';
 import useAuth from '../stores/auth';
 
 interface LoginCreds {
@@ -12,7 +12,7 @@ interface LoginCreds {
   email: string;
 }
 
-const apiClient = new APIClient<LoginCreds>('/auth/google');
+const apiClient = new BackendAPIClient<LoginCreds>('/auth/google');
 
 export const Login = () => {
   const signIn = useAuth((state) => state.signIn);

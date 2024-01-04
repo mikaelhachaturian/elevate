@@ -1,7 +1,10 @@
 import random
 from flask import Flask, jsonify
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 
 # List of offers
 banks = ["Leumi", "Mizrahi", "Poalim"]
@@ -73,15 +76,15 @@ def get_random_offer():
 
     response_data = {
         "bank_name": banks[random_bank],
-        "Fixed offer": Fixed[random_id_fixed],
-        "Prime offer": Prime[random_id_prime],
-        "Changes every 5 years offer": changesEvery5[random_id_changes],
-        "Total years": get_years(random_id_fixed, random_id_prime, random_id_changes),
-        "Monthly payment:": get_monthly_payment(
+        "fixed": Fixed[random_id_fixed],
+        "prime": Prime[random_id_prime],
+        "changes_every_5_years_offer": changesEvery5[random_id_changes],
+        "total_years": get_years(random_id_fixed, random_id_prime, random_id_changes),
+        "monthly_payment:": get_monthly_payment(
             random_id_fixed, random_id_prime, random_id_changes
         ),
     }
-    return jsonify({"result": response_data})
+    return jsonify(response_data)
 
 
 if __name__ == "__main__":

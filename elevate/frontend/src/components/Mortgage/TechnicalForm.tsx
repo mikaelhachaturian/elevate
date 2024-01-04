@@ -14,7 +14,6 @@ interface Props {
 
 export interface TechnicalInfo {
   mortgageSum: string;
-  paybackYears: string;
   estateCity: string;
   estateValue: string;
   dateOfMortgage: string;
@@ -25,7 +24,6 @@ export interface TechnicalInfo {
 
 export const defaultTechnicalInfo = {
   mortgageSum: '',
-  paybackYears: '',
   estateCity: '',
   estateValue: '',
   dateOfMortgage: '',
@@ -43,15 +41,6 @@ const TechnicalForm = ({ onChangeFn, values }: Props) => {
           id="mortgageSum"
           onChange={onChangeFn}
           value={values.mortgageSum ?? ''}
-        />
-      </FormControl>
-
-      <FormControl isRequired>
-        <FormLabel htmlFor="paybackYears">Years for Payback:</FormLabel>
-        <Input
-          id="paybackYears"
-          onChange={onChangeFn}
-          value={values.paybackYears ?? ''}
         />
       </FormControl>
 

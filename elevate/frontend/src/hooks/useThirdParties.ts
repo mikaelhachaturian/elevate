@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import ms from 'ms';
-import APIClient from '../services/api-client';
+import BackendAPIClient from '../services/api-client';
 
 export interface Provider {
   name: string;
@@ -15,7 +15,7 @@ interface Providers {
   providers: Provider[];
 }
 
-const apiClient = new APIClient<Providers>('/api/thirdparty');
+const apiClient = new BackendAPIClient<Providers>('/api/thirdparty');
 
 const useThirdParties = () => {
   return useQuery({

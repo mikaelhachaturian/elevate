@@ -15,7 +15,7 @@ import { IoIosSend } from 'react-icons/io';
 
 import { useNavigate } from 'react-router-dom';
 import { Provider } from '../../hooks/useThirdParties';
-import APIClient from '../../services/api-client';
+import BackendAPIClient from '../../services/api-client';
 import useAuth from '../../stores/auth';
 import ProviderInfo from './ProviderInfo';
 
@@ -30,7 +30,7 @@ interface Props {
   providers: Provider[];
 }
 
-const apiClient = new APIClient('/api/appointments');
+const apiClient = new BackendAPIClient('/api/appointments');
 
 const ThirdPartyForm = ({ providers }: Props) => {
   const userEmail = useAuth((state) => state.session?.data.email);

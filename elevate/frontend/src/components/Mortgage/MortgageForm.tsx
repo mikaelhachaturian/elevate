@@ -2,22 +2,28 @@ import { Button, FormLabel, HStack, VStack } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward, IoIosSend } from 'react-icons/io';
 
+import BanksAPIClient from '../../services/banks-api-client';
 import { hasField } from '../../utils';
 import BasicForm, { BasicInfo, defaultBasicInfo } from './BasicForm';
 import TechnicalForm, {
   TechnicalInfo,
   defaultTechnicalInfo,
 } from './TechnicalForm';
+import { Offer } from '../../pages/MortgageOffer';
 
 interface FormData {
   borrowerBasicInfo: BasicInfo;
   technicalInfo: TechnicalInfo;
 }
 
-// const apiClient = new APIClient('/api/appointments');
+interface Props {
+  offer: Offer;
+  setOffer: (offer: Offer) => void;
+}
 
-const MortgageForm = () => {
-  // const navigate = useNavigate();
+const apiClient = new BanksAPIClient<Offer>('/random_bank');
+
+const MortgageForm = ({ offer }: Props) => {
   const [currentStep, setCurrentStep] = useState(1);
   const nextStep = () => setCurrentStep(currentStep + 1);
   const prevStep = () => setCurrentStep(currentStep - 1);
@@ -67,10 +73,8 @@ const MortgageForm = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLDivElement>) => {
     event.preventDefault();
 
-    console.log(formData);
-
-    // await apiClient.post(formData);
-    // navigate('/');
+    offer = await apiClient.get();
+    console.log(offer);
   };
 
   const renderFormStep = () => {

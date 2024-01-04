@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import ms from 'ms';
-import APIClient from '../services/api-client';
+import BackendAPIClient from '../services/api-client';
 import useAuth from '../stores/auth';
 
 interface Appointment {
@@ -14,7 +14,7 @@ interface Appointments {
   appointments: Appointment[];
 }
 
-const apiClient = new APIClient<Appointments>('/api/appointments');
+const apiClient = new BackendAPIClient<Appointments>('/api/appointments');
 
 const useAppointments = () => {
   const email = useAuth((state) => state.session?.data.email);
