@@ -12,3 +12,12 @@ export function hasField<T extends object>(
 ): key is keyof T {
   return key in obj;
 }
+
+export function hasEmptyField<T extends object>(obj: T): boolean {
+  for (const key in obj) {
+    if (obj[key] === null || obj[key] === undefined || obj[key] === '') {
+      return true;
+    }
+  }
+  return false;
+}

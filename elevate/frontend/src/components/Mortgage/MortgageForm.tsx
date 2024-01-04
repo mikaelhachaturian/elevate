@@ -120,6 +120,7 @@ const MortgageForm = () => {
               color={'#3E373D'}
               rightIcon={<IoIosArrowForward />}
               onClick={nextStep}
+              type="submit"
             >
               Next
             </Button>
