@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import APIClient from '../services/api-client';
+import BackendAPIClient from '../services/api-client';
 
 interface Tokens {
   id_token: string;
@@ -18,7 +18,7 @@ interface Auth {
   signOut: (userEmail: string) => void;
 }
 
-const apiClient = new APIClient('/api/users');
+const apiClient = new BackendAPIClient('/api/users');
 
 const localStorageHandler = (): Session | undefined => {
   const v = localStorage.getItem('session') || undefined;

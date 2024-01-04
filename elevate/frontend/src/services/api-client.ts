@@ -4,7 +4,7 @@ const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
 });
 
-class APIClient<T> {
+class BackendAPIClient<T> {
   endpoint: string;
   constructor(endpoint: string) {
     this.endpoint = endpoint;
@@ -47,4 +47,4 @@ class APIClient<T> {
   };
 }
 
-export default APIClient;
+export default BackendAPIClient;

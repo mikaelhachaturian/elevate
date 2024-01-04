@@ -1,4 +1,5 @@
 import {
+  Center,
   Divider,
   HStack,
   Heading,
@@ -35,7 +36,11 @@ const Appointments = () => {
   const { data, error, isLoading } = useAppointments();
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <Center h="100vh">
+        <Spinner size="xl" />
+      </Center>
+    );
   }
   if (error || !data) throw error;
 
