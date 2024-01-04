@@ -3,6 +3,7 @@ import { initProviders } from '../models/provider';
 import { initUsers } from '../models/user';
 import { populateProviders } from './providers';
 import { initAppointments } from '../models/appointment';
+import { initOffers } from '../models/offer';
 
 const getDBInstance = (): Sequelize => {
   const host = process.env.MYSQL_HOST;
@@ -22,6 +23,7 @@ export const initDB = async () => {
   initUsers(sequelize);
   initProviders(sequelize);
   initAppointments(sequelize);
+  initOffers(sequelize);
   await sequelize.sync({ force: true });
   await populateProviders();
   // sequelize.close();

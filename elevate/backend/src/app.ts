@@ -9,6 +9,8 @@ import { createAppointment, getAppointments } from './services/appointments';
 import { Appointment } from './models/appointment';
 import sendSMS from './services/vonage';
 import { formatDate } from './services/utils';
+import { createOffer, getOffers } from './services/offers';
+import { Offer } from './models/offer';
 
 dotenv.config();
 
@@ -92,6 +94,21 @@ app.get('/api/appointments/:email', async (req: Request, res: Response) => {
   const appointments = await getAppointments(email);
 
   return res.json({ appointments });
+});
+
+app.post('/api/offers', async (req: Request, res: Response) => {
+  const { offer, email } = req.body;
+
+  const createdOffer = await createOffer({ ...offer, email } as Offer);
+
+  res.json({ status: 'offer saved', createdOffer });
+});
+
+app.get('/api/offers/:email', async (req: Request, res: Response) => {
+  const email = req.params.email as string;
+  const offer = await getOffers(email);
+
+  return res.json({ offer });
 });
 
 // DB Configuration
