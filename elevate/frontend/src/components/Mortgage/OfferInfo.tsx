@@ -46,7 +46,7 @@ const OfferInfo = ({ offer }: Props) => {
           <TableCaption>Best Offer from {offer.bank_name}</TableCaption>
           <Thead>
             <Tr>
-              <Th>Line</Th>
+              <Th>Path</Th>
               <Th>Interest</Th>
               <Th>Monthly Fee</Th>
               <Th>Sum</Th>
