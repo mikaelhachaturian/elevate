@@ -20,15 +20,15 @@ const Menu = () => {
             Third Party Providers
           </Button>
         </Link>
-        <Link to="/appointments">
+        <Link to="/changes/doors">
           <Button
             size="sm"
             color={'#DDD8C3'}
-            leftIcon={<FaRegCalendarCheck />}
+            leftIcon={<LuDoorOpen />}
             _hover={{ bg: '#836862' }}
             variant="ghost"
           >
-            My Appointments
+            Door Changes
           </Button>
         </Link>
         <Link to="/mortgages">
@@ -53,15 +53,15 @@ const Menu = () => {
             My Changes
           </Button>
         </Link>
-        <Link to="/changes/doors">
+        <Link to="/appointments">
           <Button
             size="sm"
             color={'#DDD8C3'}
-            leftIcon={<LuDoorOpen />}
+            leftIcon={<FaRegCalendarCheck />}
             _hover={{ bg: '#836862' }}
             variant="ghost"
           >
-            Door Changes
+            My Appointments
           </Button>
         </Link>
       </VStack>
