@@ -1,8 +1,8 @@
-import { Button, FormLabel, HStack, VStack } from '@chakra-ui/react';
+import { Button, FormLabel, HStack, Text, VStack } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward, IoIosSend } from 'react-icons/io';
 
-import { Offer } from '../../pages/MortgageOffer';
+import { Offers } from '../../pages/MortgageOffer';
 import BanksAPIClient from '../../services/banks-api-client';
 import { hasField } from '../../utils';
 import BasicForm, { BasicInfo } from './BasicForm';
@@ -14,11 +14,11 @@ interface FormData {
 }
 
 interface Props {
-  offer: Offer;
-  setOffer: (offer: Offer) => void;
+  offers: Offers;
+  setOffers: (offers: Offers) => void;
 }
 
-const apiClient = new BanksAPIClient<Offer>('/random_bank');
+const apiClient = new BanksAPIClient<Offers>('/random_bank');
 
 const defaultBasicInfo = {
   firstName: '',
@@ -38,13 +38,15 @@ const defaultTechnicalInfo = {
   employmentSatus: 'Employed',
   monthlySalary: '',
   equity: '',
+  bankChoices: [''],
 };
 
-const MortgageForm = ({ offer, setOffer }: Props) => {
+const MortgageForm = ({ offers, setOffers }: Props) => {
   const [currentStep, setCurrentStep] = useState(1);
   const nextStep = () => setCurrentStep(currentStep + 1);
   const prevStep = () => setCurrentStep(currentStep - 1);
   const totalSteps = 2;
+  const [isBanksEmpty, setIsBanksEmpty] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     borrowerBasicInfo: defaultBasicInfo,
@@ -87,11 +89,29 @@ const MortgageForm = ({ offer, setOffer }: Props) => {
     }
   };
 
+  const handleCheckBoxChange = (e: (string | number)[]) => {
+    const currentTechnicalInfo = formData.technicalInfo ?? defaultTechnicalInfo;
+    const updatedTechnical: TechnicalInfo = {
+      ...currentTechnicalInfo,
+      bankChoices: e,
+    };
+    setFormData((prevState) => ({
+      ...prevState,
+      technicalInfo: updatedTechnical,
+    }));
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLDivElement>) => {
     event.preventDefault();
-
-    offer = await apiClient.get();
-    setOffer(offer);
+    if (formData.technicalInfo.bankChoices[0] != '') {
+      offers = await apiClient.post({
+        banks: formData.technicalInfo.bankChoices,
+      });
+      setOffers(offers);
+      setIsBanksEmpty(false);
+    } else {
+      setIsBanksEmpty(true);
+    }
   };
 
   const renderFormStep = () => {
@@ -107,6 +127,7 @@ const MortgageForm = ({ offer, setOffer }: Props) => {
         return (
           <TechnicalForm
             onChangeFn={handleChange}
+            onChangeCheckBoxFn={handleCheckBoxChange}
             values={formData.technicalInfo}
           />
         );
@@ -158,6 +179,11 @@ const MortgageForm = ({ offer, setOffer }: Props) => {
             </Button>
           )}
         </HStack>
+        {isBanksEmpty && (
+          <Text fontSize={'xl'} color={'red'}>
+            You must select at least 1 Bank!
+          </Text>
+        )}
       </VStack>
     </>
   );

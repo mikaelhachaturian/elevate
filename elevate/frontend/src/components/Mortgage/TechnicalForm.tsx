@@ -1,14 +1,19 @@
 import {
+  Checkbox,
+  CheckboxGroup,
+  Divider,
   FormControl,
   FormLabel,
   Input,
   Select,
+  Stack,
   VStack,
 } from '@chakra-ui/react';
 import { ChangeEvent } from 'react';
 
 interface Props {
   onChangeFn: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  onChangeCheckBoxFn: (e: (string | number)[]) => void;
   values: TechnicalInfo;
 }
 
@@ -20,9 +25,10 @@ export interface TechnicalInfo {
   employmentSatus: string;
   monthlySalary: string;
   equity: string;
+  bankChoices: (string | number)[];
 }
 
-const TechnicalForm = ({ onChangeFn, values }: Props) => {
+const TechnicalForm = ({ onChangeFn, onChangeCheckBoxFn, values }: Props) => {
   return (
     <VStack w={'100%'}>
       <FormControl isRequired>
@@ -90,6 +96,26 @@ const TechnicalForm = ({ onChangeFn, values }: Props) => {
           onChange={onChangeFn}
           required
         />
+      </FormControl>
+
+      <Divider />
+
+      <FormControl>
+        <FormLabel htmlFor="bankChoices">
+          Select Banks to get Offers from:
+        </FormLabel>
+        <CheckboxGroup onChange={onChangeCheckBoxFn}>
+          <Stack
+            id="bankChoices"
+            spacing={[1, 5]}
+            direction={['column', 'column']}
+          >
+            <Checkbox value="Poalim">Poalim</Checkbox>
+            <Checkbox value="Leumi">Leumi</Checkbox>
+            <Checkbox value="Mizrahi">Mizrahi</Checkbox>
+            <Checkbox value="Discount">Discount</Checkbox>
+          </Stack>
+        </CheckboxGroup>
       </FormControl>
     </VStack>
   );

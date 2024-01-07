@@ -19,6 +19,16 @@ class BanksAPIClient<T> {
       })
       .then((res) => res.data);
   };
+  post = async (data: unknown) => {
+    return axiosInstance
+      .post<T>(this.endpoint, data, {
+        headers: {
+          Accept: 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+      .then((res) => res.data);
+  };
 }
 
 export default BanksAPIClient;

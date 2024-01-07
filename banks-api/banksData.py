@@ -1,5 +1,5 @@
 import random
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -25,39 +25,16 @@ changesEvery5 = [
     {"id": 1, "sum": 380000, "interest": 1.8, "years": 15, "monthlyFee": 1690},
     {"id": 2, "sum": 380000, "interest": 1.9, "years": 10, "monthlyFee": 1856},
     {"id": 3, "sum": 380000, "interest": 2, "years": 15, "monthlyFee": 1799},
-    {"id": 4, "sum": 380000, "interest": 2.1, "years": 12 , "monthlyFee": 1772},
+    {"id": 4, "sum": 380000, "interest": 2.1, "years": 12, "monthlyFee": 1772},
     {"id": 5, "sum": 380000, "interest": 2.2, "years": 11, "monthlyFee": 1921},
 ]
 
 
 #
-@app.route("/random_bank", methods=["GET"])
+@app.route("/random_bank", methods=["POST"])
 def get_random_offer():
     # Randomize a bank
-    random_bank = random.randint(0, 4)
-    # Randomize a fixed offer
-    random_id_fixed = random.randint(0, 4)
-    random_id_prime = random.randint(0, 4)
-    random_id_changes = random.randint(0, 4)
-
-    def get_years(random_id_fixed, random_id_prime, random_id_changes):
-        totayears = 0
-        for entry in Fixed:
-            if int(entry["id"]) == int(random_id_fixed + 1):
-                totayears += int(entry["years"])
-                print(totayears)
-                break
-        for entry1 in Prime:
-            if int(entry1["id"]) == int(random_id_prime + 1):
-                totayears += int(entry1["years"])
-                print(totayears)
-                break
-        for entry2 in changesEvery5:
-            if int(entry2["id"]) == int(random_id_changes + 1):
-                totayears += int(entry2["years"])
-                print(totayears)
-                break
-        return totayears
+    banks = request.get_json()["banks"]
 
     def get_monthly_payment(random_id_fixed, random_id_prime, random_id_changes):
         totalpay = 0
@@ -78,15 +55,23 @@ def get_random_offer():
                 break
         return totalpay
 
-    response_data = {
-        "fixed": Fixed[random_id_fixed],
-        "prime": Prime[random_id_prime],
-        "changes_every_5_years_offer": changesEvery5[random_id_changes],
-        "monthly_payment:": get_monthly_payment(
-            random_id_fixed, random_id_prime, random_id_changes
-        ),
-    }
-    return jsonify(response_data)
+    offers = []
+    for bank in banks:
+        # Randomize a fixed offer
+        random_id_fixed = random.randint(0, 4)
+        random_id_prime = random.randint(0, 4)
+        random_id_changes = random.randint(0, 4)
+        offer = {
+            "bank": bank,
+            "fixed": Fixed[random_id_fixed],
+            "prime": Prime[random_id_prime],
+            "changes_every_5_years_offer": changesEvery5[random_id_changes],
+            "monthly_payment:": get_monthly_payment(
+                random_id_fixed, random_id_prime, random_id_changes
+            ),
+        }
+        offers.append(offer)
+    return jsonify({"offers": offers})
 
 
 if __name__ == "__main__":

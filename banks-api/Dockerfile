@@ -8,7 +8,7 @@ WORKDIR /app
 COPY banksData.py /app/
 
 # Install Flask (assuming Flask is the only dependency)
-RUN pip install Flask==2.0.2 Werkzeug==2.0.2 flask-cors==4.0.0
+RUN pip install Flask==2.3.2 Werkzeug==3.0.1 flask-cors==4.0.0
 
 # Expose port 5000
 EXPOSE 5000
