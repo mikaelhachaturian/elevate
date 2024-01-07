@@ -35,7 +35,7 @@ app.post('/auth/google', async (req: Request, res: Response) => {
 
   const { id_token, expiry_date } = tokens;
 
-  res.json({ id_token, expiry_date, email: user.email });
+  res.json({ id_token, expiry_date, email: user.email, role: user.role });
 });
 
 app.post('/auth/google/refresh-token', async (req: Request, res: Response) => {

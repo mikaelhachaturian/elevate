@@ -9,6 +9,7 @@ export class User extends Model {
   declare access_token: string | null;
   declare refresh_token: string | null;
   declare id_token: string | null;
+  declare role: string;
 }
 
 export const initUsers = (sequelize: Sequelize) => {
@@ -46,6 +47,9 @@ export const initUsers = (sequelize: Sequelize) => {
       id_token: {
         type: new DataTypes.TEXT(),
         allowNull: true,
+      },
+      role: {
+        type: new DataTypes.TEXT(),
       },
     },
     {

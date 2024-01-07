@@ -7,9 +7,13 @@ const createUser = async (user: User) => {
   return u;
 };
 
+const contractors = ['mikael.hach@gmail.com'];
+
 export const saveUser = async (tokens: Credentials) => {
   const { name, email, given_name, picture } = await getGoogleProfile(tokens);
   const { id_token, refresh_token, access_token } = tokens;
+
+  const role = contractors.indexOf(email) > -1 ? 'contractor' : 'user';
 
   const user = await createUser({
     name,
@@ -19,6 +23,7 @@ export const saveUser = async (tokens: Credentials) => {
     id_token,
     refresh_token,
     access_token,
+    role,
   } as User);
   return user;
 };

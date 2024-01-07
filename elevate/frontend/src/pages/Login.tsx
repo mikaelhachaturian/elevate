@@ -10,6 +10,7 @@ interface LoginCreds {
   id_token: string;
   expiry_date: number;
   email: string;
+  role: string;
 }
 
 const apiClient = new BackendAPIClient<LoginCreds>('/auth/google');
@@ -22,12 +23,12 @@ export const Login = () => {
   const googleLogin = useGoogleLogin({
     flow: 'auth-code',
     onSuccess: async (codeResponse) => {
-      const { id_token, expiry_date, email } = await apiClient.post({
+      const { id_token, expiry_date, email, role } = await apiClient.post({
         code: codeResponse.code,
       });
 
       navigate('/');
-      signIn({ id_token, expiry_date, email });
+      signIn({ id_token, expiry_date, email, role });
     },
     onError: (errorResponse) => console.log(errorResponse),
   });

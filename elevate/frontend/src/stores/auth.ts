@@ -1,20 +1,21 @@
 import { create } from 'zustand';
 import BackendAPIClient from '../services/api-client';
 
-interface Tokens {
+interface SessionInfo {
   id_token: string;
   email: string;
   expiry_date: number;
+  role: string;
 }
 
 interface Session {
   isAuthenticated: boolean;
-  data: Tokens;
+  data: SessionInfo;
 }
 
 interface Auth {
   session: Session | undefined;
-  signIn: (tokens: Tokens) => void;
+  signIn: (tokens: SessionInfo) => void;
   signOut: (userEmail: string) => void;
 }
 
@@ -27,7 +28,7 @@ const localStorageHandler = (): Session | undefined => {
 
 const useAuth = create<Auth>((set) => ({
   session: localStorageHandler(),
-  signIn: (tokens: Tokens) =>
+  signIn: (tokens: SessionInfo) =>
     set(() => {
       const session = {
         data: tokens,
