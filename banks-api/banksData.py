@@ -2,27 +2,31 @@ import random
 from flask import Flask, jsonify
 from flask_cors import CORS
 
-
 app = Flask(__name__)
 CORS(app)
 
-# List of offers
-banks = ["Leumi", "Mizrahi", "Poalim", "Discount", "Mercantile"]
 Fixed = [
     {"id": 1, "sum": 250000, "interest": 1.5, "years": 30, "monthlyFee": 980},
     {"id": 2, "sum": 250000, "interest": 1.6, "years": 25, "monthlyFee": 1005},
     {"id": 3, "sum": 250000, "interest": 1.7, "years": 25, "monthlyFee": 1075},
+    {"id": 4, "sum": 250000, "interest": 1.8, "years": 23, "monthlyFee": 1084},
+    {"id": 5, "sum": 250000, "interest": 1.9, "years": 21, "monthlyFee": 1099},
 ]
 
 Prime = [
     {"id": 1, "sum": 370000, "interest": 2.1, "years": 15, "monthlyFee": 1621},
     {"id": 2, "sum": 370000, "interest": 2.4, "years": 10, "monthlyFee": 1833},
     {"id": 3, "sum": 370000, "interest": 2.7, "years": 15, "monthlyFee": 1743},
+    {"id": 4, "sum": 370000, "interest": 2.8, "years": 8, "monthlyFee": 1999},
+    {"id": 5, "sum": 370000, "interest": 2.9, "years": 6, "monthlyFee": 1992},
 ]
+
 changesEvery5 = [
     {"id": 1, "sum": 380000, "interest": 1.8, "years": 15, "monthlyFee": 1690},
     {"id": 2, "sum": 380000, "interest": 1.9, "years": 10, "monthlyFee": 1856},
     {"id": 3, "sum": 380000, "interest": 2, "years": 15, "monthlyFee": 1799},
+    {"id": 4, "sum": 380000, "interest": 2.1, "years": 12 , "monthlyFee": 1772},
+    {"id": 5, "sum": 380000, "interest": 2.2, "years": 11, "monthlyFee": 1921},
 ]
 
 
@@ -30,11 +34,11 @@ changesEvery5 = [
 @app.route("/random_bank", methods=["GET"])
 def get_random_offer():
     # Randomize a bank
-    random_bank = random.randint(0, 2)
+    random_bank = random.randint(0, 4)
     # Randomize a fixed offer
-    random_id_fixed = random.randint(0, 2)
-    random_id_prime = random.randint(0, 2)
-    random_id_changes = random.randint(0, 2)
+    random_id_fixed = random.randint(0, 4)
+    random_id_prime = random.randint(0, 4)
+    random_id_changes = random.randint(0, 4)
 
     def get_years(random_id_fixed, random_id_prime, random_id_changes):
         totayears = 0
@@ -75,11 +79,9 @@ def get_random_offer():
         return totalpay
 
     response_data = {
-        "bank_name": banks[random_bank],
         "fixed": Fixed[random_id_fixed],
         "prime": Prime[random_id_prime],
         "changes_every_5_years_offer": changesEvery5[random_id_changes],
-        "total_years": get_years(random_id_fixed, random_id_prime, random_id_changes),
         "monthly_payment:": get_monthly_payment(
             random_id_fixed, random_id_prime, random_id_changes
         ),
