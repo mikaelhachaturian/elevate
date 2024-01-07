@@ -1,28 +1,33 @@
 import { Box, Button, Center, Image, Text, VStack } from '@chakra-ui/react';
 import { useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
+import { FaGoogle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/elevate-icons/png/logo-color.png';
+import BackendAPIClient from '../services/api-client';
 import useAuth from '../stores/auth';
-import { FaGoogle } from 'react-icons/fa';
+
+interface LoginCreds {
+  id_token: string;
+  expiry_date: number;
+  email: string;
+}
+
+const apiClient = new BackendAPIClient<LoginCreds>('/auth/google');
 
 export const Login = () => {
   const signIn = useAuth((state) => state.signIn);
   const isAuthenticated = useAuth((state) => state.session?.isAuthenticated);
   const navigate = useNavigate();
-  const backendURL = import.meta.env.VITE_BACKEND_URL;
 
   const googleLogin = useGoogleLogin({
     flow: 'auth-code',
     onSuccess: async (codeResponse) => {
-      const tokens = await axios.post(`${backendURL}/auth/google`, {
+      const { id_token, expiry_date, email } = await apiClient.post({
         code: codeResponse.code,
       });
 
-      const { id_token, expiry_date } = tokens.data;
-
       navigate('/');
-      signIn({ id_token, expiry_date });
+      signIn({ id_token, expiry_date, email });
     },
     onError: (errorResponse) => console.log(errorResponse),
   });

@@ -5,7 +5,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-# List of offers
 Fixed = [
     {"id": 1, "sum": 250000, "interest": 1.5, "years": 30, "monthlyFee": 980},
     {"id": 2, "sum": 250000, "interest": 1.6, "years": 25, "monthlyFee": 1005},
@@ -21,6 +20,7 @@ Prime = [
     {"id": 4, "sum": 370000, "interest": 2.8, "years": 8, "monthlyFee": 1999},
     {"id": 5, "sum": 370000, "interest": 2.9, "years": 6, "monthlyFee": 1992},
 ]
+
 changesEvery5 = [
     {"id": 1, "sum": 380000, "interest": 1.8, "years": 15, "monthlyFee": 1690},
     {"id": 2, "sum": 380000, "interest": 1.9, "years": 10, "monthlyFee": 1856},
@@ -91,4 +91,3 @@ def get_random_offer():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
-

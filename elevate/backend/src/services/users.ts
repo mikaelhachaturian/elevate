@@ -11,7 +11,7 @@ export const saveUser = async (tokens: Credentials) => {
   const { name, email, given_name, picture } = await getGoogleProfile(tokens);
   const { id_token, refresh_token, access_token } = tokens;
 
-  await createUser({
+  const user = await createUser({
     name,
     email,
     given_name,
@@ -20,12 +20,13 @@ export const saveUser = async (tokens: Credentials) => {
     refresh_token,
     access_token,
   } as User);
+  return user;
 };
 
-export const getUser = async (id_token: string) => {
+export const getUser = async (email: string) => {
   const user = await User.findOne({
     where: {
-      id_token: id_token,
+      email: email,
     },
   });
   return user;

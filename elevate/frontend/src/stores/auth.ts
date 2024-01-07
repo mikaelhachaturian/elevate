@@ -1,7 +1,9 @@
 import { create } from 'zustand';
+import BackendAPIClient from '../services/api-client';
 
 interface Tokens {
   id_token: string;
+  email: string;
   expiry_date: number;
 }
 
@@ -13,8 +15,10 @@ interface Session {
 interface Auth {
   session: Session | undefined;
   signIn: (tokens: Tokens) => void;
-  signOut: () => void;
+  signOut: (userEmail: string) => void;
 }
+
+const apiClient = new BackendAPIClient('/api/users');
 
 const localStorageHandler = (): Session | undefined => {
   const v = localStorage.getItem('session') || undefined;
@@ -32,9 +36,10 @@ const useAuth = create<Auth>((set) => ({
       localStorage.setItem('session', JSON.stringify(session));
       return { session: session };
     }),
-  signOut: () =>
+  signOut: (userEmail: string) =>
     set(() => {
       localStorage.removeItem('session');
+      apiClient.delete(userEmail);
       return { session: undefined };
     }),
 }));

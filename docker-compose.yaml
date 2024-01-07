@@ -3,6 +3,7 @@ version: '3.8'
 services:
   elevate-ui:
     build: elevate/frontend/.
+    restart: on-failure
     ports:
       - '3000:3000'
     depends_on:
@@ -16,6 +17,7 @@ services:
 
   elevate-backend:
     build: elevate/backend/.
+    restart: on-failure
     ports:
       - '3001:3001'
     depends_on:
@@ -27,6 +29,16 @@ services:
       watch:
         - action: rebuild
           path: elevate/backend
+
+  banks:
+    build: banks-api/.
+    restart: on-failure
+    ports:
+      - '5005:5000'
+    develop:
+      watch:
+        - action: rebuild
+          path: banks-api
 
   db:
     image: mysql:8.2

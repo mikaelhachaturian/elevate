@@ -1,13 +1,14 @@
-import { Box, Divider, Image, VStack } from '@chakra-ui/react';
+import { Divider, Image, VStack } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import logo from '../../../assets/elevate-icons/png/logo-no-background.png';
+import Menu from './Menu';
 import Notifications from './Notifications';
 import UserPopUp from './UserPopUp/UserPopUp';
 
 const Header = () => {
   return (
     <VStack padding="4" justify={'space-between'} h="100vh">
-      <Box>
+      <VStack padding="3" justify={'space-between'}>
         <Link to="/">
           <Image
             src={logo}
@@ -19,7 +20,9 @@ const Header = () => {
             }}
           />
         </Link>
-      </Box>
+        <Divider />
+        <Menu />
+      </VStack>
       <VStack padding="3" justify={'space-between'}>
         <Divider />
         <Notifications />

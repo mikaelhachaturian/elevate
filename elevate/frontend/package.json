@@ -30,6 +30,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@types/ms": "^0.7.34",
     "@types/node": "^20.10.5",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
