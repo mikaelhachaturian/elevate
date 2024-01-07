@@ -1,8 +1,9 @@
 import { Button, VStack } from '@chakra-ui/react';
-import { RiContactsBookFill } from 'react-icons/ri';
 import { FaRegCalendarCheck } from 'react-icons/fa6';
+import { RiBankFill, RiContactsBookFill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
-import { RiBankFill } from 'react-icons/ri';
+import { LuDoorOpen } from 'react-icons/lu';
+import { MdOutlineChangeCircle } from 'react-icons/md';
 
 const Menu = () => {
   return (
@@ -39,6 +40,28 @@ const Menu = () => {
             variant="ghost"
           >
             Mortgage Offer
+          </Button>
+        </Link>
+        <Link to="/changes">
+          <Button
+            size="sm"
+            color={'#DDD8C3'}
+            leftIcon={<MdOutlineChangeCircle />}
+            _hover={{ bg: '#836862' }}
+            variant="ghost"
+          >
+            My Changes
+          </Button>
+        </Link>
+        <Link to="/changes/doors">
+          <Button
+            size="sm"
+            color={'#DDD8C3'}
+            leftIcon={<LuDoorOpen />}
+            _hover={{ bg: '#836862' }}
+            variant="ghost"
+          >
+            Door Changes
           </Button>
         </Link>
       </VStack>

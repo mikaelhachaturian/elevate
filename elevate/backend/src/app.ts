@@ -11,6 +11,7 @@ import sendSMS from './services/vonage';
 import { formatDate } from './services/utils';
 import { createOffer, getOffers } from './services/offers';
 import { Offer } from './models/offer';
+import { createChange, getUserChanges } from './services/changes';
 
 dotenv.config();
 
@@ -109,6 +110,29 @@ app.get('/api/offers/:email', async (req: Request, res: Response) => {
   const offer = await getOffers(email);
 
   return res.json({ offer });
+});
+
+app.post('/api/changes/doors', async (req: Request, res: Response) => {
+  const { color, handle, light, userEmail, cost } = req.body;
+
+  const createdRequest = await createChange({
+    color,
+    handle,
+    light,
+    userEmail,
+    type: 'Door',
+    cost,
+    approved: false,
+  });
+
+  res.json({ status: 'change request saved', createdRequest });
+});
+
+app.get('/api/changes/:email', async (req: Request, res: Response) => {
+  const email = req.params.email as string;
+  const changes = await getUserChanges(email);
+
+  return res.json({ changes });
 });
 
 // DB Configuration

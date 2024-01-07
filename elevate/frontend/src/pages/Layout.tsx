@@ -14,13 +14,14 @@ const Layout = () => {
           base: '1fr',
           lg: '200px 1fr',
         }}
+        h="100vh"
       >
         <Show above="lg">
           <GridItem bg="#3E373D" area={'aside'}>
             <NavBar />
           </GridItem>
         </Show>
-        <GridItem area={'main'}>
+        <GridItem area={'main'} overflowY="auto">
           <Center padding={'3'}>
             <Outlet />
           </Center>

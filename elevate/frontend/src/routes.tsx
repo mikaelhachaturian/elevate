@@ -7,6 +7,8 @@ import ProtectedRoutes from './routes/ProtectedRoutes';
 import { ThirdParty } from './pages/ThirdParty';
 import Appointments from './pages/Appointments';
 import { MortgageOffer } from './pages/MortgageOffer';
+import { DoorChanges } from './pages/DoorChanges';
+import Changes from './pages/Changes';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,8 @@ const router = createBrowserRouter([
           { path: '/thirdparty', element: <ThirdParty /> },
           { path: '/appointments', element: <Appointments /> },
           { path: '/mortgages', element: <MortgageOffer /> },
+          { path: '/changes', element: <Changes /> },
+          { path: '/changes/doors', element: <DoorChanges /> },
         ],
       },
     ],
