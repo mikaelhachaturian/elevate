@@ -5,7 +5,7 @@ import Menu from './Menu';
 import Notifications from './Notifications';
 import UserPopUp from './UserPopUp/UserPopUp';
 
-const Header = () => {
+const NavBar = () => {
   return (
     <VStack padding="4" justify={'space-between'} h="100vh">
       <VStack padding="3" justify={'space-between'}>
@@ -32,4 +32,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default NavBar;
