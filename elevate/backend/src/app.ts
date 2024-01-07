@@ -11,7 +11,13 @@ import sendSMS from './services/vonage';
 import { formatDate } from './services/utils';
 import { createOffer, getOffers } from './services/offers';
 import { Offer } from './models/offer';
-import { createChange, getUserChanges } from './services/changes';
+import { v4 as uuid } from 'uuid';
+import {
+  createChange,
+  getAllChanges,
+  getUserChanges,
+  updateApproval,
+} from './services/changes';
 
 dotenv.config();
 
@@ -114,8 +120,10 @@ app.get('/api/offers/:email', async (req: Request, res: Response) => {
 
 app.post('/api/changes/doors', async (req: Request, res: Response) => {
   const { color, handle, light, userEmail, cost } = req.body;
-
+  const changeRequestId = uuid();
   const createdRequest = await createChange({
+    changeRequestId,
+    changedStatus: false,
     color,
     handle,
     light,
@@ -133,6 +141,19 @@ app.get('/api/changes/:email', async (req: Request, res: Response) => {
   const changes = await getUserChanges(email);
 
   return res.json({ changes });
+});
+
+app.get('/api/changes', async (req: Request, res: Response) => {
+  const changes = await getAllChanges();
+
+  return res.json({ changes });
+});
+
+app.post('/api/changes', async (req: Request, res: Response) => {
+  const { changeRequestId, approval } = req.body;
+  const updateChangeRequest = updateApproval(changeRequestId, approval);
+
+  res.json({ status: 'change request updated', updateChangeRequest });
 });
 
 // DB Configuration

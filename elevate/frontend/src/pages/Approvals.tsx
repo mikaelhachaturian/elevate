@@ -1,7 +1,10 @@
 import {
+  Button,
   Center,
   Divider,
+  HStack,
   Heading,
+  Image,
   Spinner,
   Table,
   TableCaption,
@@ -13,14 +16,19 @@ import {
   Thead,
   Tr,
   VStack,
-  Image,
-  HStack,
 } from '@chakra-ui/react';
-import useChanges from '../hooks/useChanges';
+import { Navigate } from 'react-router-dom';
+import useAllChanges from '../hooks/useAllChanges';
+import useAuth from '../stores/auth';
 import { doorColors, doorHandles, doorLights } from '../stores/doorSpecs';
+import BackendAPIClient from '../services/api-client';
 
-const Changes = () => {
-  const { data, error, isLoading } = useChanges();
+const apiClient = new BackendAPIClient('/api/changes');
+
+export const Approvals = () => {
+  const { data, error, isLoading } = useAllChanges();
+  const role = useAuth((state) => state.session?.data.role);
+  if (role === 'user') return <Navigate to="/" replace />;
 
   if (isLoading) {
     return (
@@ -34,17 +42,35 @@ const Changes = () => {
   if (data?.changes.length === 0) {
     return (
       <VStack p={10} spacing={10} m={4}>
-        <Heading>My Changes</Heading>
+        <Heading>Approvals</Heading>
         <Divider />
         <Text>No change requests made..</Text>
       </VStack>
     );
   }
 
+  const approveRequest = async (e: React.MouseEvent<HTMLElement>) => {
+    const payload = {
+      approval: true,
+      changedStatus: true,
+      changeRequestId: (e.target as any).value,
+    };
+    await apiClient.post(payload);
+  };
+
+  const declineRequest = async (e: React.MouseEvent<HTMLElement>) => {
+    const payload = {
+      approval: false,
+      changedStatus: true,
+      changeRequestId: (e.target as any).value,
+    };
+    await apiClient.post(payload);
+  };
+
   return (
     <>
       <VStack p={10} spacing={10} m={4}>
-        <Heading>My Changes</Heading>
+        <Heading>Approvals</Heading>
         <Divider />
         <TableContainer>
           <Table
@@ -54,10 +80,12 @@ const Changes = () => {
             borderRadius={8}
             boxShadow="lg"
           >
-            <TableCaption>My Changes</TableCaption>
+            <TableCaption>Approvals</TableCaption>
             <Thead>
               <Tr>
+                <Th>User</Th>
                 <Th>Type</Th>
+                <Th>Request ID</Th>
                 <Th>Specifications</Th>
                 <Th>Cost</Th>
                 <Th>Approved</Th>
@@ -66,7 +94,9 @@ const Changes = () => {
             <Tbody>
               {data.changes?.map((change, index) => (
                 <Tr key={index}>
+                  <Td>{change.email}</Td>
                   <Td>{change.type}</Td>
+                  <Td>{change.changeRequestId}</Td>
                   <Td>
                     <HStack>
                       <VStack>
@@ -100,19 +130,37 @@ const Changes = () => {
                   </Td>
                   <Td>{change.cost}</Td>
                   <Td>
-                    {change.approved ? (
-                      <Text as={'b'} color={'green'}>
-                        Approved
-                      </Text>
-                    ) : !change.approved && change.changedStatus ? (
-                      <Text as={'b'} color={'red'}>
-                        Not Approved
-                      </Text>
-                    ) : (
-                      <Text as={'b'} color={'orange'}>
-                        Waiting for Approval
-                      </Text>
-                    )}
+                    <VStack spacing={4}>
+                      {change.changedStatus ? (
+                        <Text as={'b'}>
+                          Request{' '}
+                          {change.approved ? (
+                            <Text color={'green'}>Approved</Text>
+                          ) : (
+                            <Text color={'red'}>Denied</Text>
+                          )}
+                        </Text>
+                      ) : (
+                        <>
+                          <Button
+                            bg={'#DDD8C3'}
+                            color={'#3E373D'}
+                            onClick={approveRequest}
+                            value={change.changeRequestId}
+                          >
+                            Approve
+                          </Button>
+                          <Button
+                            bg={'#DDD8C3'}
+                            color={'#3E373D'}
+                            onClick={declineRequest}
+                            value={change.changeRequestId}
+                          >
+                            Decline
+                          </Button>
+                        </>
+                      )}
+                    </VStack>
                   </Td>
                 </Tr>
               ))}
@@ -123,5 +171,3 @@ const Changes = () => {
     </>
   );
 };
-
-export default Changes;

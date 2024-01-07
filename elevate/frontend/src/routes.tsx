@@ -9,6 +9,7 @@ import Appointments from './pages/Appointments';
 import { MortgageOffer } from './pages/MortgageOffer';
 import { DoorChanges } from './pages/DoorChanges';
 import Changes from './pages/Changes';
+import { Approvals } from './pages/Approvals';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
           { path: '/mortgages', element: <MortgageOffer /> },
           { path: '/changes', element: <Changes /> },
           { path: '/changes/doors', element: <DoorChanges /> },
+          { path: '/approvals', element: <Approvals /> },
         ],
       },
     ],

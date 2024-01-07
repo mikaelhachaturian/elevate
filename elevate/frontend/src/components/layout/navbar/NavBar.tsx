@@ -23,7 +23,7 @@ const NavBar = () => {
         <Divider />
         <Menu />
       </VStack>
-      <VStack padding="3" justify={'space-between'}>
+      <VStack padding="6" justify={'space-between'}>
         <Divider />
         <Notifications />
         <UserPopUp />

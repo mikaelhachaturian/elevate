@@ -8,10 +8,12 @@ interface DoorSpec {
 
 export class Change extends Model {
   declare id: number;
+  declare changeRequestId: string;
   declare email: string;
   declare type: string;
   declare description: DoorSpec;
   declare cost: string;
+  declare changedStatus: boolean;
   declare approved: boolean;
 }
 
@@ -24,6 +26,10 @@ export const initChanges = async (sequelize: Sequelize) => {
         primaryKey: true,
       },
       email: {
+        type: new DataTypes.STRING(128),
+        allowNull: false,
+      },
+      changeRequestId: {
         type: new DataTypes.STRING(128),
         allowNull: false,
       },
@@ -40,6 +46,9 @@ export const initChanges = async (sequelize: Sequelize) => {
         allowNull: true,
       },
       approved: {
+        type: new DataTypes.BOOLEAN(),
+      },
+      changedStatus: {
         type: new DataTypes.BOOLEAN(),
       },
     },

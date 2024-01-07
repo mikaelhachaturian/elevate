@@ -15,9 +15,11 @@ interface Change {
   description: DoorSpec;
   cost: string;
   approved: boolean;
+  changeRequestId: string;
+  changedStatus: boolean;
 }
 
-interface Changes {
+export interface Changes {
   changes: Change[];
 }
 
@@ -29,7 +31,7 @@ const useChanges = () => {
     queryKey: ['changes'],
     queryFn: () => apiClient.get(email as string),
     staleTime: ms('5s'),
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: 'always',
   });
 };
 
