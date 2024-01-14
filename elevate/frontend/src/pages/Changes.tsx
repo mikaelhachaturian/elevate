@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 import useChanges from '../hooks/useChanges';
 import { doorColors, doorHandles, doorLights } from '../stores/doorSpecs';
+import { FaShekelSign } from 'react-icons/fa6';
 
 const Changes = () => {
   const { data, error, isLoading } = useChanges();
@@ -71,7 +72,7 @@ const Changes = () => {
                     <HStack>
                       <VStack>
                         <Image
-                          src={doorColors[change.description.color]}
+                          src={doorColors[change.description.color].type}
                           boxSize="200px"
                           objectFit="contain"
                           alt={change.description.color}
@@ -80,7 +81,7 @@ const Changes = () => {
                       </VStack>
                       <VStack>
                         <Image
-                          src={doorHandles[change.description.handle]}
+                          src={doorHandles[change.description.handle].type}
                           boxSize="200px"
                           objectFit="contain"
                           alt={change.description.handle}
@@ -89,7 +90,7 @@ const Changes = () => {
                       </VStack>
                       <VStack>
                         <Image
-                          src={doorLights[change.description.light]}
+                          src={doorLights[change.description.light].type}
                           boxSize="200px"
                           objectFit="contain"
                           alt={change.description.light}
@@ -98,7 +99,12 @@ const Changes = () => {
                       </VStack>
                     </HStack>
                   </Td>
-                  <Td>{change.cost}</Td>
+                  <Td>
+                    <HStack>
+                      <Text fontSize={'xl'}>{change.cost}</Text>
+                      <FaShekelSign />
+                    </HStack>
+                  </Td>
                   <Td>
                     {change.approved ? (
                       <Text as={'b'} color={'green'}>

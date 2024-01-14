@@ -101,7 +101,7 @@ export const Approvals = () => {
                     <HStack>
                       <VStack>
                         <Image
-                          src={doorColors[change.description.color]}
+                          src={doorColors[change.description.color].type}
                           boxSize="200px"
                           objectFit="contain"
                           alt={change.description.color}
@@ -110,7 +110,7 @@ export const Approvals = () => {
                       </VStack>
                       <VStack>
                         <Image
-                          src={doorHandles[change.description.handle]}
+                          src={doorHandles[change.description.handle].type}
                           boxSize="200px"
                           objectFit="contain"
                           alt={change.description.handle}
@@ -119,7 +119,7 @@ export const Approvals = () => {
                       </VStack>
                       <VStack>
                         <Image
-                          src={doorLights[change.description.light]}
+                          src={doorLights[change.description.light].type}
                           boxSize="200px"
                           objectFit="contain"
                           alt={change.description.light}

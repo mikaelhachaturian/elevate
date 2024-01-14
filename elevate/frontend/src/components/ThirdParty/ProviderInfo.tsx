@@ -32,7 +32,7 @@ const ProviderInfo = ({ provider }: Props) => {
         <Text fontSize="md">Phone: {provider?.phone}</Text>
         <HStack>
           <Text fontSize="md" as="b">
-            Start from: {provider?.cost}
+            Hourly Fee: {provider?.cost}
           </Text>
           <FaShekelSign />
         </HStack>

@@ -50,7 +50,7 @@ const StandardDoor = ({ setIsChangeSpecs }: Props) => {
               </Td>
               <Td>
                 <Image
-                  src={doorColors['standard']}
+                  src={doorColors['standard'].type}
                   boxSize="300px"
                   objectFit="contain"
                 />
@@ -64,7 +64,7 @@ const StandardDoor = ({ setIsChangeSpecs }: Props) => {
               </Td>
               <Td>
                 <Image
-                  src={doorLights['standard']}
+                  src={doorLights['standard'].type}
                   boxSize="200px"
                   objectFit="contain"
                 />
@@ -78,7 +78,7 @@ const StandardDoor = ({ setIsChangeSpecs }: Props) => {
               </Td>
               <Td>
                 <Image
-                  src={doorHandles['standard']}
+                  src={doorHandles['standard'].type}
                   boxSize="200px"
                   objectFit="contain"
                 />

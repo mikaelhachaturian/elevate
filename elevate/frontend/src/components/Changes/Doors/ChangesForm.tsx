@@ -7,15 +7,21 @@ import {
   HStack,
   Image,
   Select,
-  VStack,
   Text,
+  VStack,
 } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
+import { FaShekelSign } from 'react-icons/fa6';
 import { IoIosSend } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import BackendAPIClient from '../../../services/api-client';
-import { doorColors, doorHandles, doorLights } from '../../../stores/doorSpecs';
 import useAuth from '../../../stores/auth';
+import {
+  Spec,
+  doorColors,
+  doorHandles,
+  doorLights,
+} from '../../../stores/doorSpecs';
 
 const apiClient = new BackendAPIClient('/api/changes/doors');
 
@@ -26,6 +32,16 @@ interface FormData {
   light: string;
   cost: number;
 }
+
+interface typeDetails {
+  [key: string]: Spec;
+}
+
+const specs: typeDetails = {
+  color: doorColors,
+  handle: doorHandles,
+  light: doorLights,
+};
 
 const ChangesForm = () => {
   const userEmail = useAuth((state) => state.session?.data.email);
@@ -44,9 +60,16 @@ const ChangesForm = () => {
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const { id, value } = e.target;
+    const arrayHelper = ['color', 'handle', 'light'];
+    const filterdArray = arrayHelper.filter((a) => a != id);
     setFormData((prevState) => ({
       ...prevState,
-      cost: prevState.cost + Math.floor(Math.random() * (1000 - 500 + 1) + 200),
+      cost:
+        // @ts-ignore
+        specs[filterdArray[0]][formData[filterdArray[0]]].cost +
+        // @ts-ignore
+        specs[filterdArray[1]][formData[filterdArray[1]]].cost +
+        specs[id][value].cost,
       [id]: value,
     }));
   };
@@ -62,7 +85,7 @@ const ChangesForm = () => {
     } else {
       setIsAllStandard(false);
       await apiClient.post(formData);
-      navigate('/');
+      navigate('/changes');
     }
   };
 
@@ -88,7 +111,7 @@ const ChangesForm = () => {
             </Select>
           </FormControl>
           <Image
-            src={doorColors[formData.color]}
+            src={doorColors[formData.color].type}
             boxSize="300px"
             objectFit="contain"
           />
@@ -111,7 +134,7 @@ const ChangesForm = () => {
             </Select>
           </FormControl>
           <Image
-            src={doorHandles[formData.handle]}
+            src={doorHandles[formData.handle].type}
             boxSize="200px"
             objectFit="contain"
           />
@@ -133,10 +156,14 @@ const ChangesForm = () => {
             </Select>
           </FormControl>
           <Image
-            src={doorLights[formData.light]}
+            src={doorLights[formData.light].type}
             boxSize="200px"
             objectFit="contain"
           />
+        </HStack>
+        <HStack>
+          <Text fontSize={'xl'}>Cost: {formData.cost}</Text>
+          <FaShekelSign />
         </HStack>
       </VStack>
 

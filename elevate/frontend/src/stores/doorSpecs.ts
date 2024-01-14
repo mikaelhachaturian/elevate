@@ -14,27 +14,32 @@ import light_rec from '../assets/doors/light/light_rec.jpeg';
 import tafus_circ from '../assets/doors/light/tafus_circ.jpeg';
 import tafus_rec from '../assets/doors/light/tafus_rec.jpeg';
 
-interface Spec {
-  [key: string]: string;
+interface SpecDetails {
+  type: string;
+  cost: number;
+}
+
+export interface Spec {
+  [key: string]: SpecDetails;
 }
 
 export const doorColors: Spec = {
-  standard: standard_door,
-  beige: beige,
-  nut: nut,
-  white: white,
+  standard: { type: standard_door, cost: 0 },
+  beige: { type: beige, cost: 600 },
+  nut: { type: nut, cost: 550 },
+  white: { type: white, cost: 500 },
 };
 
 export const doorHandles: Spec = {
-  standard: standard_handle,
-  circular_handle: circular_handle,
-  magnum_handle: magnum_handle,
-  premium_handle: premium_handle,
+  standard: { type: standard_handle, cost: 0 },
+  circular_handle: { type: circular_handle, cost: 200 },
+  magnum_handle: { type: magnum_handle, cost: 250 },
+  premium_handle: { type: premium_handle, cost: 300 },
 };
 
 export const doorLights: Spec = {
-  standard: standard_light,
-  tafus_rec: tafus_rec,
-  tafus_circ: tafus_circ,
-  light_rec: light_rec,
+  standard: { type: standard_light, cost: 0 },
+  tafus_rec: { type: tafus_rec, cost: 100 },
+  tafus_circ: { type: tafus_circ, cost: 150 },
+  light_rec: { type: light_rec, cost: 150 },
 };

@@ -103,7 +103,10 @@ const MortgageForm = ({ offers, setOffers }: Props) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLDivElement>) => {
     event.preventDefault();
-    if (formData.technicalInfo.bankChoices[0] != '') {
+    if (
+      formData.technicalInfo.bankChoices[0] != '' &&
+      formData.technicalInfo.bankChoices.length > 0
+    ) {
       offers = await apiClient.post({
         banks: formData.technicalInfo.bankChoices,
       });
