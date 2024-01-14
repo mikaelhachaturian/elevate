@@ -16,6 +16,7 @@ interface Change {
   cost: string;
   approved: boolean;
   changeRequestId: string;
+  info: string;
   changedStatus: boolean;
 }
 

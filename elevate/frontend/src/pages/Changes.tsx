@@ -62,6 +62,7 @@ const Changes = () => {
                 <Th>Specifications</Th>
                 <Th>Cost</Th>
                 <Th>Approved</Th>
+                <Th>Reason</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -119,6 +120,11 @@ const Changes = () => {
                         Waiting for Approval
                       </Text>
                     )}
+                  </Td>
+                  <Td>
+                    <Text fontSize={'xl'}>
+                      {change.info ? change.info : '-'}
+                    </Text>
                   </Td>
                 </Tr>
               ))}

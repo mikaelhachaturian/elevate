@@ -15,6 +15,7 @@ export class Change extends Model {
   declare cost: string;
   declare changedStatus: boolean;
   declare approved: boolean;
+  declare info: string;
 }
 
 export const initChanges = async (sequelize: Sequelize) => {
@@ -39,6 +40,10 @@ export const initChanges = async (sequelize: Sequelize) => {
       },
       cost: {
         type: new DataTypes.STRING(128),
+        allowNull: true,
+      },
+      info: {
+        type: new DataTypes.STRING(256),
         allowNull: true,
       },
       description: {

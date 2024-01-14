@@ -130,6 +130,7 @@ app.post('/api/changes/doors', async (req: Request, res: Response) => {
     userEmail,
     type: 'Door',
     cost,
+    info: '',
     approved: false,
   });
 
@@ -150,8 +151,8 @@ app.get('/api/changes', async (req: Request, res: Response) => {
 });
 
 app.post('/api/changes', async (req: Request, res: Response) => {
-  const { changeRequestId, approval } = req.body;
-  const updateChangeRequest = updateApproval(changeRequestId, approval);
+  const { changeRequestId, approval, info } = req.body;
+  const updateChangeRequest = updateApproval(changeRequestId, approval, info);
 
   res.json({ status: 'change request updated', updateChangeRequest });
 });

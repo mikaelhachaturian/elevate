@@ -8,6 +8,7 @@ export interface ChangeRequest {
   userEmail: string;
   type: string;
   cost: string;
+  info: string;
   approved: boolean;
   changedStatus: boolean;
 }
@@ -20,6 +21,7 @@ export const createChange = async (c: ChangeRequest) => {
     type: c.type,
     cost: c.cost,
     approved: c.approved,
+    info: c.info,
     description: {
       color: c.color,
       handle: c.handle,
@@ -43,6 +45,7 @@ export const getUserChanges = async (email: string) => {
     approved: c.approved,
     description: c.description,
     cost: c.cost,
+    info: c.info,
     changeRequestId: c.changeRequestId,
     changedStatus: c.changedStatus,
   }));
@@ -57,6 +60,7 @@ export const getAllChanges = async () => {
     approved: c.approved,
     description: c.description,
     cost: c.cost,
+    info: c.info,
     changeRequestId: c.changeRequestId,
     changedStatus: c.changedStatus,
   }));
@@ -64,6 +68,7 @@ export const getAllChanges = async () => {
 
 export const updateApproval = async (
   changeRequestId: string,
+  info: string,
   approval: boolean
 ) => {
   const change = await Change.findOne({
@@ -73,6 +78,7 @@ export const updateApproval = async (
   });
 
   change.approved = approval;
+  change.info = info;
   change.changedStatus = true;
   await change.save();
 };
