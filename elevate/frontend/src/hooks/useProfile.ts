@@ -12,6 +12,7 @@ const useProfile = () => {
     queryKey: ['profile', data],
     queryFn: () => apiClient.get(data?.email as string),
     staleTime: ms('15m'),
+    retry: false,
   });
 };
 

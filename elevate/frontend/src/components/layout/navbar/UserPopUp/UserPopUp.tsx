@@ -7,19 +7,23 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
-  Text,
   VStack,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import useProfile from '../../../../hooks/useProfile';
+import useAuth from '../../../../stores/auth';
 import ColorModeSwitch from './ColorModeSwitch';
 import SignOutBtn from './SignOutBtn';
 
 const UserPopUp = () => {
   const { data: profile, error } = useProfile();
+  const signOut = useAuth((state) => state.signOut);
+  const userEmail = useAuth((state) => state.session?.data.email);
+  const navigate = useNavigate();
 
   if (error) {
-    console.log(error);
-    return <Text>Error</Text>;
+    signOut(userEmail as string);
+    navigate('/login');
   }
 
   return (
