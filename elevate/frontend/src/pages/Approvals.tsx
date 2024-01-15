@@ -16,6 +16,7 @@ import {
   Thead,
   Tr,
   VStack,
+  useToast,
 } from '@chakra-ui/react';
 import { Navigate } from 'react-router-dom';
 import useAllChanges from '../hooks/useAllChanges';
@@ -28,6 +29,7 @@ const apiClient = new BackendAPIClient('/api/changes');
 
 export const Approvals = () => {
   const { data, error, isLoading } = useAllChanges();
+  const toast = useToast();
   const role = useAuth((state) => state.session?.data.role);
   if (role === 'user') return <Navigate to="/" replace />;
 
@@ -56,7 +58,18 @@ export const Approvals = () => {
       changedStatus: true,
       changeRequestId: (e.target as any).value,
     };
-    await apiClient.post(payload);
+    const post = apiClient.post(payload);
+    toast.promise(post, {
+      success: {
+        title: 'Request Approved.',
+        description: 'Notification sent to user.',
+      },
+      error: {
+        title: 'Request was not approved..',
+        description: 'Something went wrong..',
+      },
+      loading: { title: 'Approving Request', description: 'Please wait..' },
+    });
   };
 
   return (
