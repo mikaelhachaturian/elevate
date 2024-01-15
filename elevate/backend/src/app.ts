@@ -152,7 +152,7 @@ app.get('/api/changes', async (req: Request, res: Response) => {
 
 app.post('/api/changes', async (req: Request, res: Response) => {
   const { changeRequestId, approval, info } = req.body;
-  const updateChangeRequest = updateApproval(changeRequestId, approval, info);
+  const updateChangeRequest = updateApproval(changeRequestId, info, approval);
 
   res.json({ status: 'change request updated', updateChangeRequest });
 });

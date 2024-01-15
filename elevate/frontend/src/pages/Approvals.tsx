@@ -22,6 +22,7 @@ import useAllChanges from '../hooks/useAllChanges';
 import useAuth from '../stores/auth';
 import { doorColors, doorHandles, doorLights } from '../stores/doorSpecs';
 import BackendAPIClient from '../services/api-client';
+import DeclinePopUp from '../components/Approvals/DeclinePopUp';
 
 const apiClient = new BackendAPIClient('/api/changes');
 
@@ -52,15 +53,6 @@ export const Approvals = () => {
   const approveRequest = async (e: React.MouseEvent<HTMLElement>) => {
     const payload = {
       approval: true,
-      changedStatus: true,
-      changeRequestId: (e.target as any).value,
-    };
-    await apiClient.post(payload);
-  };
-
-  const declineRequest = async (e: React.MouseEvent<HTMLElement>) => {
-    const payload = {
-      approval: false,
       changedStatus: true,
       changeRequestId: (e.target as any).value,
     };
@@ -150,14 +142,9 @@ export const Approvals = () => {
                           >
                             Approve
                           </Button>
-                          <Button
-                            bg={'#DDD8C3'}
-                            color={'#3E373D'}
-                            onClick={declineRequest}
-                            value={change.changeRequestId}
-                          >
-                            Decline
-                          </Button>
+                          <DeclinePopUp
+                            changeRequestId={change.changeRequestId}
+                          />
                         </>
                       )}
                     </VStack>
