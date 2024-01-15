@@ -18,7 +18,11 @@ import {
   getUserChanges,
   updateApproval,
 } from './services/changes';
-import { createNotification, getNotifications } from './services/notifications';
+import {
+  createNotification,
+  getNotification,
+  getNotifications,
+} from './services/notifications';
 
 dotenv.config();
 
@@ -169,12 +173,24 @@ app.post('/api/changes', async (req: Request, res: Response) => {
 });
 
 app.get('/api/notifications/:email', async (req: Request, res: Response) => {
-  console.log('here');
   const email = req.params.email as string;
   const notifications = await getNotifications(email);
 
   return res.json({ notifications });
 });
+
+app.delete(
+  '/api/notifications/:requestId',
+  async (req: Request, res: Response) => {
+    const requestId = req.params.requestId as string;
+    const notification = await getNotification(requestId);
+    if (notification) {
+      await notification.destroy();
+      return res.json({ message: `${notification.requestId} deleted` });
+    }
+    return res.status(404).json({ error: 'notification not found' });
+  }
+);
 
 // DB Configuration
 initDB();

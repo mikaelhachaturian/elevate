@@ -24,3 +24,12 @@ export const createNotification = async (n: NotificationDetail) => {
   const notification = await Notification.create({ ...n });
   return notification;
 };
+
+export const getNotification = async (requestId: string) => {
+  const n = await Notification.findOne({
+    where: {
+      requestId: requestId,
+    },
+  });
+  return n;
+};
