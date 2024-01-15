@@ -9,6 +9,7 @@ import {
   Select,
   Textarea,
   VStack,
+  useToast,
 } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import { IoIosSend } from 'react-icons/io';
@@ -35,6 +36,7 @@ const apiClient = new BackendAPIClient('/api/appointments');
 const ThirdPartyForm = ({ providers }: Props) => {
   const userEmail = useAuth((state) => state.session?.data.email);
   const navigate = useNavigate();
+  const toast = useToast();
 
   const [formData, setFormData] = useState<FormData>({
     provider: providers[0],
@@ -57,7 +59,18 @@ const ThirdPartyForm = ({ providers }: Props) => {
   const handleSubmit = async (event: React.FormEvent<HTMLDivElement>) => {
     event.preventDefault();
 
-    await apiClient.post(formData);
+    const post = apiClient.post(formData);
+    toast.promise(post, {
+      success: {
+        title: 'Appointment Created.',
+        description: 'Message sent to provider.',
+      },
+      error: {
+        title: 'Appointment was not created..',
+        description: 'Something went wrong..',
+      },
+      loading: { title: 'Creating Appointment', description: 'Please wait..' },
+    });
     navigate('/appointments');
   };
 

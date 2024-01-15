@@ -9,6 +9,7 @@ import {
   Select,
   Text,
   VStack,
+  useToast,
 } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import { FaShekelSign } from 'react-icons/fa6';
@@ -46,6 +47,7 @@ const specs: typeDetails = {
 const ChangesForm = () => {
   const userEmail = useAuth((state) => state.session?.data.email);
   const [isAllStandard, setIsAllStandard] = useState(false);
+  const toast = useToast();
 
   const defaultFormData: FormData = {
     userEmail: userEmail!,
@@ -84,7 +86,18 @@ const ChangesForm = () => {
       setIsAllStandard(true);
     } else {
       setIsAllStandard(false);
-      await apiClient.post(formData);
+      const post = apiClient.post(formData);
+      toast.promise(post, {
+        success: {
+          title: 'Request Created.',
+          description: 'Approval sent to contractor.',
+        },
+        error: {
+          title: 'Request was not created..',
+          description: 'Something went wrong..',
+        },
+        loading: { title: 'Creating Request', description: 'Please wait..' },
+      });
       navigate('/changes');
     }
   };
