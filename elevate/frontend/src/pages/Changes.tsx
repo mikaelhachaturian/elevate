@@ -59,6 +59,7 @@ const Changes = () => {
             <Thead>
               <Tr>
                 <Th>Type</Th>
+                <Th>Request ID</Th>
                 <Th>Specifications</Th>
                 <Th>Cost</Th>
                 <Th>Approved</Th>
@@ -69,6 +70,7 @@ const Changes = () => {
               {data.changes?.map((change, index) => (
                 <Tr key={index}>
                   <Td>{change.type}</Td>
+                  <Td>{change.changeRequestId}</Td>
                   <Td>
                     <HStack>
                       <VStack>

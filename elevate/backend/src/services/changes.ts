@@ -81,4 +81,5 @@ export const updateApproval = async (
   change.info = info;
   change.changedStatus = true;
   await change.save();
+  return change;
 };

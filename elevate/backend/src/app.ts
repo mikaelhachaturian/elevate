@@ -18,6 +18,7 @@ import {
   getUserChanges,
   updateApproval,
 } from './services/changes';
+import { createNotification, getNotifications } from './services/notifications';
 
 dotenv.config();
 
@@ -152,9 +153,27 @@ app.get('/api/changes', async (req: Request, res: Response) => {
 
 app.post('/api/changes', async (req: Request, res: Response) => {
   const { changeRequestId, approval, info } = req.body;
-  const updateChangeRequest = updateApproval(changeRequestId, info, approval);
+  const updateChangeRequest = await updateApproval(
+    changeRequestId,
+    info,
+    approval
+  );
+
+  const notification = await createNotification({
+    email: updateChangeRequest.email,
+    status: 'updated request!',
+    requestId: changeRequestId,
+  });
 
   res.json({ status: 'change request updated', updateChangeRequest });
+});
+
+app.get('/api/notifications/:email', async (req: Request, res: Response) => {
+  console.log('here');
+  const email = req.params.email as string;
+  const notifications = await getNotifications(email);
+
+  return res.json({ notifications });
 });
 
 // DB Configuration

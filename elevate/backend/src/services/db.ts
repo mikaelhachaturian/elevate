@@ -5,6 +5,7 @@ import { populateProviders } from './providers';
 import { initAppointments } from '../models/appointment';
 import { initOffers } from '../models/offer';
 import { initChanges } from '../models/change';
+import { initNotifications } from '../models/notification';
 
 const getDBInstance = (): Sequelize => {
   const host = process.env.MYSQL_HOST;
@@ -26,6 +27,7 @@ export const initDB = async () => {
   initAppointments(sequelize);
   initOffers(sequelize);
   initChanges(sequelize);
+  initNotifications(sequelize);
   await sequelize.sync({ force: true });
   await populateProviders();
   // sequelize.close();

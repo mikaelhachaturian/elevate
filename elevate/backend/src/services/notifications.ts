@@ -1,0 +1,26 @@
+import { Notification } from '../models/notification';
+
+export interface NotificationDetail {
+  requestId: string;
+  email: string;
+  status: string;
+}
+
+export const getNotifications = async (email: string) => {
+  const notifications = await Notification.findAll({
+    where: {
+      email: email,
+    },
+  });
+
+  return notifications.map((n) => ({
+    email: n.email,
+    requestId: n.requestId,
+    status: n.status,
+  }));
+};
+
+export const createNotification = async (n: NotificationDetail) => {
+  const notification = await Notification.create({ ...n });
+  return notification;
+};
