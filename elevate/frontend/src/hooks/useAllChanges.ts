@@ -9,7 +9,7 @@ const useAllChanges = () => {
   return useQuery({
     queryKey: ['changes'],
     queryFn: () => apiClient.getAll(),
-    staleTime: ms('5s'),
+    staleTime: ms('1s'),
     refetchOnWindowFocus: 'always',
   });
 };

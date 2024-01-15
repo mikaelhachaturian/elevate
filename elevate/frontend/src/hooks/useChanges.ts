@@ -31,7 +31,7 @@ const useChanges = () => {
   return useQuery({
     queryKey: ['changes'],
     queryFn: () => apiClient.get(email as string),
-    staleTime: ms('5s'),
+    staleTime: ms('1s'),
     refetchOnWindowFocus: 'always',
   });
 };

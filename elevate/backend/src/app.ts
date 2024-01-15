@@ -20,6 +20,7 @@ import {
 } from './services/changes';
 import {
   createNotification,
+  deleteAllNotifications,
   getNotification,
   getNotifications,
 } from './services/notifications';
@@ -189,6 +190,15 @@ app.delete(
       return res.json({ message: `${notification.requestId} deleted` });
     }
     return res.status(404).json({ error: 'notification not found' });
+  }
+);
+
+app.delete(
+  '/api/notifications/all/:email',
+  async (req: Request, res: Response) => {
+    const email = req.params.email as string;
+    await deleteAllNotifications(email);
+    return res.json({ message: `all ${email} notifications deleted` });
   }
 );
 

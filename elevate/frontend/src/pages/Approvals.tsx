@@ -29,7 +29,7 @@ import DeclinePopUp from '../components/Approvals/DeclinePopUp';
 const apiClient = new BackendAPIClient('/api/changes');
 
 export const Approvals = () => {
-  const { data, error, isLoading } = useAllChanges();
+  const { data, error, isLoading, refetch } = useAllChanges();
   const toast = useToast();
   const role = useAuth((state) => state.session?.data.role);
   if (role === 'user') return <Navigate to="/" replace />;
@@ -71,6 +71,7 @@ export const Approvals = () => {
       },
       loading: { title: 'Approving Request', description: 'Please wait..' },
     });
+    setTimeout(() => refetch(), 1000);
   };
 
   return (

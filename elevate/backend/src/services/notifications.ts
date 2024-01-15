@@ -33,3 +33,11 @@ export const getNotification = async (requestId: string) => {
   });
   return n;
 };
+
+export const deleteAllNotifications = async (email: string) => {
+  await Notification.destroy({
+    where: {
+      email: email,
+    },
+  });
+};

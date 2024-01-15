@@ -21,7 +21,7 @@ const useAppointments = () => {
   return useQuery({
     queryKey: ['appointments'],
     queryFn: () => apiClient.get(email as string),
-    staleTime: ms('5s'),
+    staleTime: ms('1s'),
     refetchOnWindowFocus: true,
   });
 };

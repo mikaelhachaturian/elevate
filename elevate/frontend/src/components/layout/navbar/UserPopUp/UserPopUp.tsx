@@ -7,6 +7,7 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  Text,
   VStack,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +21,7 @@ const UserPopUp = () => {
   const signOut = useAuth((state) => state.signOut);
   const userEmail = useAuth((state) => state.session?.data.email);
   const navigate = useNavigate();
+  const role = useAuth((state) => state.session?.data.role);
 
   if (error) {
     signOut(userEmail as string);
@@ -56,6 +58,9 @@ const UserPopUp = () => {
               alt={profile?.name}
             />
             <PopoverHeader>Hi {profile?.name}!</PopoverHeader>
+            <Text fontSize={'sm'} paddingX={'4'}>
+              Role: {role}
+            </Text>
             <PopoverBody>
               <ColorModeSwitch />
               <SignOutBtn />

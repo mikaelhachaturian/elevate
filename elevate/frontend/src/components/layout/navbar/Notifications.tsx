@@ -13,11 +13,14 @@ import {
 import { IoIosNotifications } from 'react-icons/io';
 import useNotifications from '../../../hooks/useNotifications';
 import BackendAPIClient from '../../../services/api-client';
+import useAuth from '../../../stores/auth';
 
 const apiClient = new BackendAPIClient('/api/notifications');
+const apiClientAll = new BackendAPIClient('/api/notifications/all');
 
 const Notifications = () => {
-  const { data, error, isLoading } = useNotifications();
+  const { data, error, isLoading, refetch } = useNotifications();
+  const userEmail = useAuth((state) => state.session?.data.email);
   if (isLoading) {
     return (
       <Center h="100vh">
@@ -28,8 +31,13 @@ const Notifications = () => {
   if (error || !data) throw error;
 
   const deleteNotification = async (requestId: string) => {
-    console.log('deleted', requestId);
     await apiClient.delete(requestId);
+    refetch();
+  };
+
+  const deleteAllNotification = async () => {
+    await apiClientAll.delete(userEmail!);
+    refetch();
   };
 
   return (
@@ -47,6 +55,12 @@ const Notifications = () => {
       </PopoverTrigger>
       <PopoverContent>
         <PopoverArrow />
+        {data.notifications.length > 0 && (
+          <Button size={'xs'} variant="ghost" onClick={deleteAllNotification}>
+            Clear All
+          </Button>
+        )}
+
         {data.notifications.length > 0 ? (
           data.notifications?.map((notification, index) => (
             <PopoverHeader key={index}>

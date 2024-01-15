@@ -23,6 +23,7 @@ import {
   doorHandles,
   doorLights,
 } from '../../../stores/doorSpecs';
+import useChanges from '../../../hooks/useChanges';
 
 const apiClient = new BackendAPIClient('/api/changes/doors');
 
@@ -58,6 +59,7 @@ const ChangesForm = () => {
   };
 
   const [formData, setFormData] = useState<FormData>(defaultFormData);
+  const { refetch } = useChanges();
   const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -98,6 +100,7 @@ const ChangesForm = () => {
         },
         loading: { title: 'Creating Request', description: 'Please wait..' },
       });
+      setTimeout(() => refetch(), 1000);
       navigate('/changes');
     }
   };

@@ -8,6 +8,7 @@ import {
 import { useState } from 'react';
 import { IoIosSend } from 'react-icons/io';
 import BackendAPIClient from '../../services/api-client';
+import useAllChanges from '../../hooks/useAllChanges';
 
 interface Props {
   changeRequestId: string;
@@ -16,14 +17,17 @@ const apiClient = new BackendAPIClient('/api/changes');
 
 const ReasonForm = ({ changeRequestId }: Props) => {
   const [reason, setReason] = useState('');
+  const { refetch } = useAllChanges();
 
-  const declineRequest = async () => {
+  const declineRequest = async (event: React.FormEvent<HTMLDivElement>) => {
+    event.preventDefault();
     const payload = {
       approval: false,
       changeRequestId: changeRequestId,
       info: reason,
     };
     await apiClient.post(payload);
+    refetch();
   };
   return (
     <VStack spacing={4} as="form" onSubmit={declineRequest}>
