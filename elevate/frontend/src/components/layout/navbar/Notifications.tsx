@@ -36,8 +36,10 @@ const Notifications = () => {
   };
 
   const deleteAllNotification = async () => {
-    await apiClientAll.delete(userEmail!);
-    refetch();
+    if (data.notifications.length > 0) {
+      await apiClientAll.delete(userEmail!);
+      refetch();
+    }
   };
 
   return (
@@ -55,12 +57,9 @@ const Notifications = () => {
       </PopoverTrigger>
       <PopoverContent>
         <PopoverArrow />
-        {data.notifications.length > 0 && (
-          <Button size={'xs'} variant="ghost" onClick={deleteAllNotification}>
-            Clear All
-          </Button>
-        )}
-
+        <Button size={'xs'} variant="ghost" onClick={deleteAllNotification}>
+          Clear All
+        </Button>
         {data.notifications.length > 0 ? (
           data.notifications?.map((notification, index) => (
             <PopoverHeader key={index}>
@@ -80,7 +79,9 @@ const Notifications = () => {
           ))
         ) : (
           <PopoverHeader>
-            <Text fontSize={'sm'}>No new Notifications..</Text>
+            <Center>
+              <Text fontSize={'sm'}>No new Notifications..</Text>
+            </Center>
           </PopoverHeader>
         )}
       </PopoverContent>
