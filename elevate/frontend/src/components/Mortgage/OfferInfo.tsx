@@ -10,6 +10,7 @@ import {
   Thead,
   Tr,
   VStack,
+  useToast,
 } from '@chakra-ui/react';
 import { MdGetApp } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
@@ -26,9 +27,21 @@ const apiClient = new BackendAPIClient('/api/offers');
 const OfferInfo = ({ offer }: Props) => {
   const navigate = useNavigate();
   const userEmail = useAuth((state) => state.session?.data.email);
+  const toast = useToast();
 
   const acceptOffer = async () => {
-    await apiClient.post({ offer, email: userEmail });
+    const post = apiClient.post({ offer, email: userEmail });
+    toast.promise(post, {
+      success: {
+        title: 'Offer Accepted.',
+        description: 'Saved offer.',
+      },
+      error: {
+        title: 'Offer was not saved..',
+        description: 'Something went wrong..',
+      },
+      loading: { title: 'Saving Offer', description: 'Please wait..' },
+    });
     navigate('/');
   };
   return (
