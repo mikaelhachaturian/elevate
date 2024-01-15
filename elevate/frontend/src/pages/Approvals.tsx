@@ -19,6 +19,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { Navigate } from 'react-router-dom';
+import { IoCheckmarkDoneSharp } from 'react-icons/io5';
 import useAllChanges from '../hooks/useAllChanges';
 import useAuth from '../stores/auth';
 import { doorColors, doorHandles, doorLights } from '../stores/doorSpecs';
@@ -152,6 +153,7 @@ export const Approvals = () => {
                             color={'#3E373D'}
                             onClick={approveRequest}
                             value={change.changeRequestId}
+                            rightIcon={<IoCheckmarkDoneSharp />}
                           >
                             Approve
                           </Button>
