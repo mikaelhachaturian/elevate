@@ -23,7 +23,6 @@ import {
   doorHandles,
   doorLights,
 } from '../../../stores/doorSpecs';
-import useChanges from '../../../hooks/useChanges';
 
 const apiClient = new BackendAPIClient('/api/changes/doors');
 
@@ -59,7 +58,6 @@ const ChangesForm = () => {
   };
 
   const [formData, setFormData] = useState<FormData>(defaultFormData);
-  const { refetch } = useChanges();
   const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -90,9 +88,12 @@ const ChangesForm = () => {
       setIsAllStandard(false);
       const post = apiClient.post(formData);
       toast.promise(post, {
-        success: {
-          title: 'Request Created.',
-          description: 'Approval sent to contractor.',
+        success: () => {
+          navigate('/changes');
+          return {
+            title: 'Request Created.',
+            description: 'Approval sent to contractor.',
+          };
         },
         error: {
           title: 'Request was not created..',
@@ -100,8 +101,6 @@ const ChangesForm = () => {
         },
         loading: { title: 'Creating Request', description: 'Please wait..' },
       });
-      setTimeout(() => refetch(), 1000);
-      navigate('/changes');
     }
   };
 

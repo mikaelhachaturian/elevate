@@ -61,9 +61,12 @@ export const Approvals = () => {
     };
     const post = apiClient.post(payload);
     toast.promise(post, {
-      success: {
-        title: 'Request Approved.',
-        description: 'Notification sent to user.',
+      success: () => {
+        refetch();
+        return {
+          title: 'Request Approved.',
+          description: 'Notification sent to user.',
+        };
       },
       error: {
         title: 'Request was not approved..',
@@ -71,7 +74,6 @@ export const Approvals = () => {
       },
       loading: { title: 'Approving Request', description: 'Please wait..' },
     });
-    setTimeout(() => refetch(), 1000);
   };
 
   return (

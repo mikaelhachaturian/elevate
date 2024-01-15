@@ -61,9 +61,12 @@ const ThirdPartyForm = ({ providers }: Props) => {
 
     const post = apiClient.post(formData);
     toast.promise(post, {
-      success: {
-        title: 'Appointment Created.',
-        description: 'Message sent to provider.',
+      success: () => {
+        navigate('/appointments');
+        return {
+          title: 'Appointment Created.',
+          description: 'Message sent to provider.',
+        };
       },
       error: {
         title: 'Appointment was not created..',
@@ -71,7 +74,6 @@ const ThirdPartyForm = ({ providers }: Props) => {
       },
       loading: { title: 'Creating Appointment', description: 'Please wait..' },
     });
-    navigate('/appointments');
   };
 
   return (
