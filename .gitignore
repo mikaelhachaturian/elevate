@@ -24,4 +24,5 @@ dist-ssr
 *.sw?
 .env
 .env_dev
+.env_prod
 elevate-ssh.pem
