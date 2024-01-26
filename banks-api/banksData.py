@@ -31,7 +31,7 @@ changesEvery5 = [
 
 
 #
-@app.route("/random_bank", methods=["POST"])
+@app.route("/api/random_bank", methods=["POST"])
 def get_random_offer():
     # Randomize a bank
     banks = request.get_json()["banks"]
