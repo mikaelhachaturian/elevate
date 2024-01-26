@@ -13,7 +13,7 @@ interface LoginCreds {
   role: string;
 }
 
-const apiClient = new BackendAPIClient<LoginCreds>('/auth/google');
+const apiClient = new BackendAPIClient<LoginCreds>('/api/auth/google');
 
 export const Login = () => {
   const signIn = useAuth((state) => state.signIn);

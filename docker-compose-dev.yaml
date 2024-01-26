@@ -9,7 +9,7 @@ services:
     depends_on:
       - db
     env_file:
-      - elevate/frontend/.env
+      - elevate/frontend/.env_dev
     develop:
       watch:
         - action: rebuild

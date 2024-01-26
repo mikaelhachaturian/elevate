@@ -41,7 +41,7 @@ app.use(express.json());
 
 const oAuth2Client = new OAuth2Client(clientId, clientSecret, 'postmessage');
 
-app.post('/auth/google', async (req: Request, res: Response) => {
+app.post('/api/auth/google', async (req: Request, res: Response) => {
   const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
   const user = await saveUser(tokens);
 
@@ -50,15 +50,18 @@ app.post('/auth/google', async (req: Request, res: Response) => {
   res.json({ id_token, expiry_date, email: user.email, role: user.role });
 });
 
-app.post('/auth/google/refresh-token', async (req: Request, res: Response) => {
-  const user = new UserRefreshClient(
-    clientId,
-    clientSecret,
-    req.body.refreshToken
-  );
-  const { credentials } = await user.refreshAccessToken(); // obtain new tokens
-  res.json(credentials);
-});
+app.post(
+  '/api/auth/google/refresh-token',
+  async (req: Request, res: Response) => {
+    const user = new UserRefreshClient(
+      clientId,
+      clientSecret,
+      req.body.refreshToken
+    );
+    const { credentials } = await user.refreshAccessToken(); // obtain new tokens
+    res.json(credentials);
+  }
+);
 
 app.get('/api/users/:email', async (req: Request, res: Response) => {
   const user = await getUser(req.params.email as string);
