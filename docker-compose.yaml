@@ -3,7 +3,7 @@ version: '3.8'
 services:
   elevate-ui:
     build: elevate/frontend/.
-    restart: on-failure
+    restart: always
     ports:
       - '3000:3000'
     depends_on:
@@ -17,7 +17,7 @@ services:
 
   elevate-backend:
     build: elevate/backend/.
-    restart: on-failure
+    restart: always
     ports:
       - '3001:3001'
     depends_on:
@@ -32,7 +32,7 @@ services:
 
   banks:
     build: banks-api/.
-    restart: on-failure
+    restart: always
     ports:
       - '5005:5000'
     develop:
@@ -42,6 +42,7 @@ services:
 
   db:
     image: mysql:8.2
+    restart: always
     ports:
       - '3306:3306'
     env_file:
@@ -56,6 +57,7 @@ services:
 
   nginx:
     image: nginx:latest
+    restart: always
     ports:
       - '80:80'
     volumes:
