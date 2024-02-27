@@ -29,7 +29,7 @@ const ProviderInfo = ({ provider }: Props) => {
         </Text>
         <Text fontSize="lg">Work Description: {provider?.description}</Text>
         <Text fontSize="md">Work Times: {provider?.work_times}</Text>
-        <Text fontSize="md">Phone: {provider?.phone}</Text>
+        {/* <Text fontSize="md">Phone: {provider?.phone}</Text> */}
         <HStack>
           <Text fontSize="md" as="b">
             Hourly Fee: {provider?.cost}
